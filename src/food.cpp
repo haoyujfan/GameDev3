@@ -38,20 +38,23 @@ void Food::_process(double delta) {
     // set_position(new_position);
 }
 
-// initialize the ball when its children are ready 
+// initialize the food when its children are ready 
 void Food::_ready() {
-    // get the name of the Ball and apply set position based on the name
+    // get the name of the Food and apply set position based on the name
     String name = this->get_name();
-    if (name == "Ball") {
-        position = Vector3(-50.0, 100.0, 0.0);
+    if (name == "Food") {
+        position = Vector3(15.0, 2.0, 40.0);
         set_position(position);
     }
-    else if (name == "Ball2") {
-        position = Vector3(0.0, 100.0, 0.0);
+    else if (name == "Food2") {
+        position = Vector3(-17.0, 2.0, 25.0);
         set_position(position);
     }
-    else if (name == "Ball3") {
-        position = Vector3(50.0, 100.0, 0.0);
+    else if (name == "Food3") {
+        position = Vector3(5.0, 2.0, -4.0);
+        set_position(position);
+    } else if (name == "Food4") {
+        position = Vector3(-7.0, 2.0, -20.0);
         set_position(position);
     }
 

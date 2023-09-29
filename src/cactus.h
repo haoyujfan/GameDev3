@@ -9,6 +9,9 @@ class Cactus : public Area3D {
     GDCLASS(Cactus, Area3D)
 
 private:
+    Vector3 position;
+    int value;
+    bool pickup;
 
 protected:
     static void _bind_methods();
@@ -20,6 +23,9 @@ public:
     void _ready() override;
 
     void ball_area_entered(const Area3D* area);
+
+    int get_value() const;
+    void set_value(const int p_value);
 
 
 };
