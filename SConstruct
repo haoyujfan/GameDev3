@@ -16,16 +16,17 @@ env = SConscript("godot-cpp/SConstruct")
 env.Append(CPPPATH=["src/"])
 sources = Glob("src/*.cpp")
 
-
+"""
 library = env.SharedLibrary(
-    "a1/bin/libwall{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
+    "a2/bin/libwall{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
     source=sources,         
 )
+"""
 
-library2 = env.SharedLibrary(       
-    "a1/bin/libball{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
+library = env.SharedLibrary(       
+    "gametecha2/bin/libplayer{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
     source=sources,
 )
 
 Default(library)
-Default(library2)
+#Default(library2)
