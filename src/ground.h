@@ -1,12 +1,12 @@
-#ifndef WALL_H
-#define WALL_H
+#ifndef GROUND_H
+#define GROUND_H
 
 #include <godot_cpp/classes/area3d.hpp>
 
 namespace godot {
 
-class Wall : public Area3D {
-    GDCLASS(Wall, Area3D)
+class Ground : public Area3D {
+    GDCLASS(Ground, Area3D)
 
 private:
     Vector3 normal;
@@ -19,8 +19,8 @@ public:
     Vector3 get_normal() const;
     void set_normal(const Vector3 p_normal);
 
-    Wall();
-    ~Wall();
+    Ground();
+    ~Ground();
 };
 
 }
