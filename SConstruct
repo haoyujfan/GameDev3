@@ -16,17 +16,17 @@ env = SConscript("godot-cpp/SConstruct")
 env.Append(CPPPATH=["src/"])
 sources = Glob("src/*.cpp")
 
-"""
-library = env.SharedLibrary(
-    "a2/bin/libwall{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
-    source=sources,         
-)
-"""
-
-library = env.SharedLibrary(       
-    "gametecha2/bin/libplayer{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
-    source=sources,
-)
+if env["platform"] == "macos":
+    library = env.SharedLibrary(
+        "Assignment2/bin/libplayer.{}.{}.framework/libplayer.{}.{}".format(
+            env["platform"], env["target"], env["platform"], env["target"]
+        ),
+        source=sources,
+    )
+else:
+    library = env.SharedLibrary(
+        "Assignment2/bin/libplayer{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
+        source=sources,
+    )
 
 Default(library)
-#Default(library2)
