@@ -1,5 +1,9 @@
 #include "register_types.h"
 #include "player.h"
+#include "cactus.h"
+#include "food.h"
+#include "ground.h"
+#include "camera.h"
 #include <gdextension_interface.h>
 #include <godot_cpp/core/defs.hpp>
 #include <godot_cpp/core/class_db.hpp>
@@ -13,6 +17,10 @@ void initialize_player_module(ModuleInitializationLevel p_level) {
     }
 
     ClassDB::register_class<Player>();
+    ClassDB::register_class<Cactus>();
+    ClassDB::register_class<Food>();
+    ClassDB::register_class<Ground>();
+    // add camera class after creating it
 }
 
 void uninitialize_player_module(ModuleInitializationLevel p_level) {

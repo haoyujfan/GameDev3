@@ -29,20 +29,17 @@ Food::~Food() {
 
 // update the new position based on speed and trajectory
 void Food::_process(double delta) {
-    Vector3 movement_update = (delta * speed) * trajectory;
+    // Vector3 movement_update = (delta * speed) * trajectory;
 
-    Vector3 new_position = Vector3(position.x + movement_update.x, 
-        position.y + movement_update.y, position.z + movement_update.z);
+    // Vector3 new_position = Vector3(position.x + movement_update.x, 
+    //     position.y + movement_update.y, position.z + movement_update.z);
 
-    position = new_position;
-    set_position(new_position);
+    // position = new_position;
+    // set_position(new_position);
 }
 
 // initialize the ball when its children are ready 
 void Food::_ready() {
-    // randomize speed and trajectory
-    RandomNumberGenerator rng;
-    value = rng.randi_range(1, 3);
     // get the name of the Ball and apply set position based on the name
     String name = this->get_name();
     if (name == "Ball") {
@@ -64,8 +61,6 @@ void Food::_ready() {
 
 // handle collisions with other objects
 void Food::ball_area_entered(const Area3D* area) {
-
-    // set trajectory to total_trajectory in case there are multiple collisions happening at once
 
 }
 

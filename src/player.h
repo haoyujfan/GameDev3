@@ -18,7 +18,7 @@ class Player : public Node3D {
         Player();
         ~Player();
 
-        void _process(double delta);
+        void _process(double delta) override;
 };
     
 
