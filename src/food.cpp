@@ -9,10 +9,10 @@ using namespace godot;
 
 // bind c++ methods to godot
 void Food::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("get_speed"), &Food::get_speed);
-    ClassDB::bind_method(D_METHOD("set_speed", "p_speed"), &Food::set_speed);
-    ClassDB::add_property("Food", PropertyInfo(Variant::FLOAT, "speed", PROPERTY_HINT_RANGE, 
-        "0.0,200.0,0.01"), "set_speed", "get_speed");
+    ClassDB::bind_method(D_METHOD("get_value"), &Food::get_value);
+    ClassDB::bind_method(D_METHOD("set_value", "p_value"), &Food::set_value);
+    ClassDB::add_property("Food", PropertyInfo(Variant::INT, "value", PROPERTY_HINT_RANGE, 
+        "0, 3, 1"), "set_value", "get_value");
     
     ClassDB::bind_method(D_METHOD("ball_area_entered", "area"), &Food::ball_area_entered);
 }
@@ -42,11 +42,7 @@ void Food::_process(double delta) {
 void Food::_ready() {
     // randomize speed and trajectory
     RandomNumberGenerator rng;
-    trajectory = Vector3(rng.randf_range(-10.0, 10.0), rng.randf_range(-10.0, 10.0), 
-        rng.randf_range(-10.0, 10.0));
-    trajectory.normalize();
-    speed = rng.randf_range(150.0, 200.0);
-
+    value = rng.randi_range(1, 3);
     // get the name of the Ball and apply set position based on the name
     String name = this->get_name();
     if (name == "Ball") {
@@ -72,22 +68,11 @@ void Food::ball_area_entered(const Area3D* area) {
     // set trajectory to total_trajectory in case there are multiple collisions happening at once
 
 }
-// set the speed (to stop the ball when in the editor)
-void Food::set_speed(const double p_speed) {
-    speed = p_speed;
+
+int Food::get_value() const{
+    return value;
 }
 
-// get the speed of the ball
-double Food::get_speed() const {
-    return speed;
-}
-
-// set the trajectory
-void Food::set_trajectory(const Vector3 p_trajectory) {
-    trajectory = p_trajectory;
-}
-
-// get the trajectory
-Vector3 Food::get_trajectory() const {
-    return trajectory;
+void Food::set_value(const int p_value) {
+    value = p_value;
 }
