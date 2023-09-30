@@ -3,6 +3,8 @@
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/random_number_generator.hpp>
+#include <godot_cpp/classes/audio_stream_player.hpp>
+#include <iostream>
 #include <stdlib.h>
 
 using namespace godot;
@@ -19,7 +21,10 @@ void Food::_bind_methods() {
 
 // constructor
 Food::Food() {
-
+    String file_path = "../Assignment2/audio/background.mp3";
+    
+    AudioStreamPlayer *music = memnew(AudioStreamPlayer);
+    music->play("../Assignment2/audio/background.mp3");
 }
 
 // destructor

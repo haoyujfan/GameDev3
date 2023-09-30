@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include <godot_cpp/classes/character_body3d.hpp>
+#include <godot_cpp/classes/input_event.hpp>
 
 using namespace godot;
 
@@ -19,6 +20,9 @@ class Player : public CharacterBody3D {
         ~Player();
 
         void _process(double delta) override;
+        void _physics_process(double delta) override;
+        void _input(const Ref<InputEvent> &event);
+
 };
     
 
