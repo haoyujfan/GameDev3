@@ -11,20 +11,20 @@ using namespace godot;
 
 // bind c++ methods to godot
 void Food::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("get_value"), &Food::get_value);
+    /*ClassDB::bind_method(D_METHOD("get_value"), &Food::get_value);
     ClassDB::bind_method(D_METHOD("set_value", "p_value"), &Food::set_value);
     ClassDB::add_property("Food", PropertyInfo(Variant::INT, "value", PROPERTY_HINT_RANGE, 
         "0, 3, 1"), "set_value", "get_value");
     
-    ClassDB::bind_method(D_METHOD("ball_area_entered", "area"), &Food::ball_area_entered);
+    ClassDB::bind_method(D_METHOD("ball_area_entered", "area"), &Food::ball_area_entered);*/
 }
 
 // constructor
 Food::Food() {
-    String file_path = "../Assignment2/audio/background.mp3";
+    /*String file_path = "../Assignment2/audio/background.mp3";
     
     AudioStreamPlayer *music = memnew(AudioStreamPlayer);
-    music->play("../Assignment2/audio/background.mp3");
+    music->play("../Assignment2/audio/background.mp3");*/
 }
 
 // destructor
@@ -46,7 +46,7 @@ void Food::_process(double delta) {
 // initialize the food when its children are ready 
 void Food::_ready() {
     // get the name of the Food and apply set position based on the name
-    String name = this->get_name();
+   /* String name = this->get_name();
     if (name == "Food") {
         position = Vector3(15.0, 2.0, 40.0);
         set_position(position);
@@ -65,6 +65,7 @@ void Food::_ready() {
 
     // connect the signal to area_entered
     this->connect("area_entered", Callable(this, "ball_area_entered"));
+    */
 }
 
 // handle collisions with other objects
@@ -77,5 +78,5 @@ int Food::get_value() const{
 }
 
 void Food::set_value(const int p_value) {
-    value = p_value;
+   // value = p_value;
 }

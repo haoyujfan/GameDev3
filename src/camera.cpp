@@ -5,7 +5,6 @@
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <cstdlib>
 #include <godot_cpp/classes/input_event_mouse_motion.hpp>
-#include <godot_cpp/variant/utility_functions.hpp>
 
 using namespace godot;
 

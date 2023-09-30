@@ -11,6 +11,7 @@ class Player : public CharacterBody3D {
 
     private:
         /* data */
+        Vector3 position;
 
     protected:
         static void _bind_methods();

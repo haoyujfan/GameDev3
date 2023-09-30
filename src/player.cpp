@@ -10,7 +10,9 @@ using namespace godot;
 
 void Player::_bind_methods() {}
 
-Player::Player() {}
+Player::Player() {
+    position = Vector3(0.0, 5.0, 0.0);
+}
 
 Player::~Player() {}
 
@@ -21,9 +23,12 @@ void Player::_physics_process(double delta) {
 }
 
 void Player::_input(const Ref<InputEvent> &event) {
-    const InputEventKey key_event = Object::cast_to<const InputEventMouseMotion>(event);
+    const InputEventKey *key_event = Object::cast_to<const InputEventKey>(*event);
     if (key_event) {
         UtilityFunctions::print(key_event);
-        set_rotation(key_event->get_relative());
+        if (key_event->as_text_key_label() == "W") {
+            position += Vector3(0.0, 0.0, 1.0);
+            set_position(position);
+        }
     }
 }

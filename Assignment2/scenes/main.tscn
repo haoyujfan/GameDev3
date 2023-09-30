@@ -1,10 +1,26 @@
-[gd_scene load_steps=2 format=3 uid="uid://31qlm3qtq1a1"]
+[gd_scene load_steps=4 format=3 uid="uid://31qlm3qtq1a1"]
 
 [ext_resource type="PackedScene" uid="uid://x1pdr2wgcjuj" path="res://scenes/field.tscn" id="1_6fcu8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gmavl"]
+size = Vector3(1, 4.31834, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6pjio"]
+size = Vector3(10, 10, 1)
 
 [node name="main" type="Node3D"]
 
 [node name="field" parent="." instance=ExtResource("1_6fcu8")]
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.999994, 0.00342084, 0, -0.00342084, 0.999994, 0, 5.59905, 9.12031)
+transform = Transform3D(1, 0, 0, 0, 0.999994, 0.00342084, 0, -0.00342084, 0.999994, 0, 9.26497, 18.5936)
+
+[node name="Player" type="Player" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.72772, -9.62925)
+shape = SubResource("BoxShape3D_gmavl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.03088, 0)
+mesh = SubResource("BoxMesh_6pjio")
