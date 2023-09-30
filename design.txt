@@ -49,8 +49,9 @@ character class in a custom prefab where it has a mesh for texture and a collisi
 nodes. There will be a character prefab that takes the previous prefab and combines it with a 
 camera and raycast to have the character and camera setup together.
 
-There will also be powerup and enemy classes that extend from CharacterBody3D node and will each be 
-used as custom prefabs where they have a mesh for texture and a collision node as children nodes. 
+There will also be powerup (food) and enemy (cactus) classes that extend from CharacterBody3D node
+and will each be used as custom prefabs where they have a mesh for texture and a collision node as 
+children nodes. 
 
 There will be a basic platform node for the ground. There will be a map scene that is composed of 
 different platform nodes put together in a way that has different elevations and makes an uneven 
