@@ -9,6 +9,7 @@ class Camera : public Camera3D {
     GDCLASS(Camera, Camera3D)
 
 private:
+    Vector3 position;
 
 protected:
     static void _bind_methods();
