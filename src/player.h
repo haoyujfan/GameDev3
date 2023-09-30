@@ -16,6 +16,7 @@ class Player : public CharacterBody3D {
         Input *input;
         double gravity;
         double jump_velocity;
+        double speed;
 
     protected:
         static void _bind_methods();

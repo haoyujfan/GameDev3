@@ -4,6 +4,8 @@
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/random_number_generator.hpp>
 #include <godot_cpp/classes/audio_stream_player.hpp>
+#include <godot_cpp/classes/audio_stream_mp3.hpp>
+#include <godot_cpp/classes/file_access.hpp>
 #include <iostream>
 #include <stdlib.h>
 
@@ -21,10 +23,15 @@ void Food::_bind_methods() {
 
 // constructor
 Food::Food() {
-    /*String file_path = "../Assignment2/audio/background.mp3";
-    
+    String file_path = "../Assignment2/audio/background.mp3";
+    Ref<FileAccess> file = FileAccess::open(file_path, FileAccess::ModeFlags::READ);
+    FileAccess *file_ptr = Object::cast_to<FileAccess>(*file);
+
+    AudioStreamMP3 *stream = memnew(AudioStreamMP3);
+    stream->set_data(file_ptr->get_file_as_bytes(file_path));
     AudioStreamPlayer *music = memnew(AudioStreamPlayer);
-    music->play("../Assignment2/audio/background.mp3");*/
+    music->set_stream(stream);
+    music->play(0.0);
 }
 
 // destructor
