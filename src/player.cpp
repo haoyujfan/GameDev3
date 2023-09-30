@@ -35,23 +35,23 @@ void Player::_physics_process(double delta) {
         velocity.y = jump_velocity;
     }
     if (input->is_key_label_pressed(KEY_W)) {
-        //position += Vector3(0.0, 0.0, -1.0);
-        velocity.z += -1;;
+        position += Vector3(0.0, 0.0, -1.0);
+        //velocity.z += -1;;
     }
     if (input->is_key_label_pressed(KEY_S)) {
-        //position += Vector3(0.0, 0.0, 1.0);
-        velocity.z += 1;
+        position += Vector3(0.0, 0.0, 1.0);
+        //velocity.z += 1;
     }
     if (input->is_key_label_pressed(KEY_A)) {
-        //position += Vector3(-1.0, 0.0, 0.0);
-        velocity.x += -1;
+        position += Vector3(-1.0, 0.0, 0.0);
+        //velocity.x += -1;
     }
     if (input->is_key_label_pressed(KEY_D)) {
-        //position += Vector3(1.0, 0.0, 0.0);
-        velocity.x += 1;
+        position += Vector3(1.0, 0.0, 0.0);
+        //velocity.x += 1;
     }
-    //set_position(position);
-    velocity = velocity;
+    set_position(position);
+    //velocity = velocity;
     move_and_slide();
 }
 
