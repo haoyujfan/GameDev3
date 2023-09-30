@@ -1,12 +1,12 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <godot_cpp/classes/node3d.hpp>
+#include <godot_cpp/classes/character_body3d.hpp>
 
 using namespace godot;
 
-class Player : public Node3D {
-    GDCLASS(Player, Node3D)
+class Player : public CharacterBody3D {
+    GDCLASS(Player, CharacterBody3D)
 
     private:
         /* data */
