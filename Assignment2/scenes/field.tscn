@@ -35,21 +35,18 @@ transform = Transform3D(1, -6.97574e-16, 4.15924e-24, 4.15924e-24, 1.19249e-08, 
 light_energy = 16.0
 light_indirect_energy = 16.0
 spot_range = 4096.0
+spot_attenuation = 0.500001
 
 [node name="SpotLight3D2" type="SpotLight3D" parent="."]
 transform = Transform3D(1, -6.97574e-16, 4.15924e-24, 4.15924e-24, 1.19249e-08, 1, -6.97574e-16, -1, 1.19249e-08, 2.08165e-12, 75, -25)
 light_energy = 16.0
 light_indirect_energy = 16.0
 spot_range = 4096.0
+spot_attenuation = 0.5
 
 [node name="SpotLight3D3" type="SpotLight3D" parent="."]
-transform = Transform3D(1, -6.97574e-16, 4.15924e-24, 4.15924e-24, 1.19249e-08, 1, -6.97574e-16, -1, 1.19249e-08, 2.08165e-12, 75, 2.08165e-12)
+transform = Transform3D(1, -6.97574e-16, 4.15926e-24, 4.15924e-24, 1.19249e-08, 1, -6.97574e-16, -1, 1.19249e-08, 2.08165e-12, 75, 2.08165e-12)
 light_energy = 16.0
 light_indirect_energy = 16.0
 spot_range = 4096.0
-
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.01748, 4.74602)
-light_color = Color(1, 0, 1, 1)
-omni_range = 4096.0
-omni_attenuation = 0.03983
+spot_attenuation = 0.5
