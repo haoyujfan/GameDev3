@@ -13,6 +13,8 @@ void Player::_bind_methods() {}
 
 Player::Player() {
     input = Input::get_singleton();
+    gravity = -1000.0;
+    jump_velocity = 800.0;
 }
 
 Player::~Player() {}
@@ -20,6 +22,17 @@ Player::~Player() {}
 void Player::_process(double delta) {}
 
 void Player::_physics_process(double delta) {
+    Vector3 velocity = Vector3(0.0, 0.0, 0.0);
+    if (!this->is_on_floor()) {
+        velocity.y += gravity * delta;
+    }
+    if (this->is_on_floor()) {
+        UtilityFunctions::print("on floor");
+    }
+    if (input->is_key_label_pressed(KEY_SPACE) && this->is_on_floor()) {
+        UtilityFunctions::print("space");
+        velocity.y = jump_velocity;
+    }
     if (input->is_key_label_pressed(KEY_W)) {
         position += Vector3(0.0, 0.0, -1.0);
     }
@@ -33,6 +46,7 @@ void Player::_physics_process(double delta) {
         position += Vector3(1.0, 0.0, 0.0);
     }
     set_position(position);
+    move_and_slide();
 }
 
 // void Player::_input(const Ref<InputEvent> &event) {

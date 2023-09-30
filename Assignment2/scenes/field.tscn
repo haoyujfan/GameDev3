@@ -9,10 +9,10 @@
 [node name="Ground" parent="." instance=ExtResource("1_lyp0q")]
 
 [node name="Food" parent="." instance=ExtResource("2_71hdr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2, 2.08165e-12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.32427, 1.98308, -19.7131)
 
 [node name="Food2" parent="." instance=ExtResource("2_71hdr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2, 2.08165e-12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.347945, 2.50586, 15.3763)
 
 [node name="Food3" parent="." instance=ExtResource("2_71hdr")]
 

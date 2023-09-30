@@ -14,6 +14,8 @@ class Player : public CharacterBody3D {
         /* data */
         Vector3 position;
         Input *input;
+        double gravity;
+        double jump_velocity;
 
     protected:
         static void _bind_methods();
