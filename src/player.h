@@ -3,6 +3,7 @@
 
 #include <godot_cpp/classes/character_body3d.hpp>
 #include <godot_cpp/classes/input_event.hpp>
+#include <godot_cpp/classes/input.hpp>
 
 using namespace godot;
 
@@ -12,6 +13,7 @@ class Player : public CharacterBody3D {
     private:
         /* data */
         Vector3 position;
+        Input *input;
 
     protected:
         static void _bind_methods();
@@ -22,7 +24,7 @@ class Player : public CharacterBody3D {
 
         void _process(double delta) override;
         void _physics_process(double delta) override;
-        void _input(const Ref<InputEvent> &event);
+        // void _input(const Ref<InputEvent> &event);
 
 };
     
