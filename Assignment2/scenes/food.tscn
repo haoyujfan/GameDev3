@@ -22,7 +22,15 @@ ao_texture = ExtResource("2_myp3r")
 uv1_scale = Vector3(4, 4, 4)
 
 [node name="Food" type="Food"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+editor_description = ""
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 3, 40)
+script = null
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_dddvy")

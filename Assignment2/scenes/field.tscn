@@ -20,31 +20,103 @@ normal_enabled = true
 [node name="field" type="Node3D"]
 
 [node name="Ground" parent="." instance=ExtResource("1_lyp0q")]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+editor_description = ""
+script = null
 
 [node name="Food" parent="." instance=ExtResource("2_71hdr")]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+editor_description = ""
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.32427, 1.98308, -19.7131)
+script = null
 
 [node name="Food2" parent="." instance=ExtResource("2_71hdr")]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+editor_description = ""
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.347945, 2.50586, 15.3763)
+script = null
 
 [node name="Food3" parent="." instance=ExtResource("2_71hdr")]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+editor_description = ""
+script = null
 
 [node name="Food4" parent="." instance=ExtResource("2_71hdr")]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+editor_description = ""
+script = null
 
 [node name="Cactus" parent="." instance=ExtResource("3_abjbr")]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+editor_description = ""
 value = 616
+script = null
 
 [node name="Cactus2" parent="." instance=ExtResource("3_abjbr")]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+editor_description = ""
 value = 51
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 3, 40)
+script = null
 
 [node name="Cactus3" parent="." instance=ExtResource("3_abjbr")]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+editor_description = ""
 value = 219
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 3, -35)
+script = null
 
 [node name="Cactus4" parent="." instance=ExtResource("3_abjbr")]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+editor_description = ""
 value = 169
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 3, -20)
+script = null
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
 transform = Transform3D(1, -6.97574e-16, 4.15924e-24, 4.15924e-24, 1.19249e-08, 1, -6.97574e-16, -1, 1.19249e-08, 2.08165e-12, 75, 25)
@@ -68,7 +140,8 @@ spot_range = 4096.0
 spot_attenuation = 0.5
 
 [node name="Player" type="Player" parent="."]
-transform = Transform3D(0.999326, -0.00865673, 0.0357005, 0.00865121, 0.999963, 0.000309061, -0.0357018, 0, 0.999363, 0, -3.95427, 0)
+transform = Transform3D(0.999326, -0.00865673, 0.0357005, 0.00865121, 0.999963, 0.000309061, -0.0357018, 0, 0.999363, 0, -2393.33, 0)
+velocity = Vector3(0, -1693.33, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
