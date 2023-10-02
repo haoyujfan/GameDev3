@@ -2,9 +2,12 @@
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/random_number_generator.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
-#include <godot_cpp/classes/input_event.hpp>
 #include <godot_cpp/classes/input.hpp>
-#include <godot_cpp/classes/input_event_key.hpp>
+
+#include <godot_cpp/classes/file_access.hpp>
+#include <godot_cpp/classes/audio_stream_player.hpp>
+#include <godot_cpp/classes/audio_stream_mp3.hpp>
+
 #include <cstdlib>
 
 using namespace godot;
@@ -16,6 +19,16 @@ Player::Player() {
     gravity = 1000.0;
     jump_velocity = -800.0;
     speed = 1;
+    
+    String file_path = "../Assignment2/audio/background.mp3";
+    Ref<FileAccess> file = FileAccess::open(file_path, FileAccess::ModeFlags::READ);
+    FileAccess *file_ptr = Object::cast_to<FileAccess>(*file);
+
+    AudioStreamMP3 *stream = memnew(AudioStreamMP3);
+    stream->set_data(file_ptr->get_file_as_bytes(file_path));
+    AudioStreamPlayer *music = memnew(AudioStreamPlayer);
+    music->set_stream(stream);
+    music->play(0.0);
 }
 
 Player::~Player() {}
@@ -23,6 +36,7 @@ Player::~Player() {}
 void Player::_process(double delta) {}
 
 void Player::_physics_process(double delta) {
+
     Vector3 velocity = Vector3(0.0, 0.0, 0.0);
     if (!this->is_on_floor()) {
         velocity.y += gravity * delta;
@@ -55,23 +69,4 @@ void Player::_physics_process(double delta) {
     move_and_slide();
 }
 
-// void Player::_input(const Ref<InputEvent> &event) {
-//     const InputEventKey *key_event = Object::cast_to<const InputEventKey>(*event);
-//     if (key_event) {
-//         UtilityFunctions::print(key_event);
-//         if (key_event->as_text_key_label() == "W") {
-//             position += Vector3(0.0, 0.0, -1.0);
-//         }
-//         if (key_event->as_text_key_label() == "S") {
-//             position += Vector3(0.0, 0.0, 1.0);
-//         }
-//         if (key_event->as_text_key_label() == "A") {
-//             position += Vector3(-1.0, 0.0, 0.0);
-//         }
-//         if (key_event->as_text_key_label() == "D") {
-//             position += Vector3(1.0, 0.0, 0.0);
-//         }
-//         set_position(position);
-//     }
-// }
 

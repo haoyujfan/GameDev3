@@ -30,5 +30,3 @@ shape = SubResource("SphereShape3D_dddvy")
 [node name="CSGMesh3D" type="CSGMesh3D" parent="."]
 mesh = SubResource("SphereMesh_dhk8u")
 material = SubResource("StandardMaterial3D_5eoht")
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
