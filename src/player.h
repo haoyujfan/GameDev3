@@ -30,6 +30,8 @@ class Player : public CharacterBody3D {
         void _process(double delta) override;
         void _physics_process(double delta) override;
         void _ready() override;
+        void apply_friction(double p_friction);
+        void apply_movement(double acceleration);
 
 };
     

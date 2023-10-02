@@ -16,9 +16,9 @@ void Player::_bind_methods() {}
 
 Player::Player() {
     input = Input::get_singleton();
-    gravity = 600.0;
+    gravity = 1200.0;
     jump_velocity = 200.0;
-    speed = 1;
+    speed = 20;
     velocity = Vector3(0.0, 0.0, 0.0);
     position = Vector3(0.0, 10.0, 0.0);
     
@@ -58,23 +58,36 @@ void Player::_physics_process(double delta) {
     }
     if (input->is_action_pressed("W")) {
         //position += Vector3(0.0, 0.0, -1.0);
-        velocity.z += -1;
+        velocity.z += -1 * speed;
     }
     if (input->is_action_pressed("S")) {
         //position += Vector3(0.0, 0.0, 1.0);
-        velocity.z += 1;
+        velocity.z += 1 * speed;
     }
     if (input->is_action_pressed("A")) {
         //position += Vector3(-1.0, 0.0, 0.0);
-        velocity.x += -1;
+        velocity.x += -1 * speed;
     }
     if (input->is_action_pressed("D")) {
         //position += Vector3(1.0, 0.0, 0.0);
-        velocity.x += 1;
+        velocity.x += 1 * speed;
     }
     //set_position(position);
     set_velocity(velocity);
+    apply_friction(600 * delta);
     move_and_slide();
 }
 
+void Player::apply_friction(double p_friction) {
+    if (velocity.length() > p_friction) {
+        velocity -= velocity.normalized() * p_friction;
+    }
+    else {
+        velocity = Vector3(0.0, 0.0, 0.0);
+    }
+}
+
+// void Player::apply_movement(double acceleration) {
+//     velocity += acceleration;
+// }
 
