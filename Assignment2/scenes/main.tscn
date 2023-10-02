@@ -1,19 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://31qlm3qtq1a1"]
+[gd_scene load_steps=2 format=3 uid="uid://31qlm3qtq1a1"]
 
 [ext_resource type="PackedScene" uid="uid://x1pdr2wgcjuj" path="res://scenes/field.tscn" id="1_6fcu8"]
-[ext_resource type="Texture2D" uid="uid://cv5yqm8fxqtl6" path="res://textures/planks/blue_painted_planks_diff_2k.png" id="2_1up0v"]
-[ext_resource type="Texture2D" uid="uid://cugryu8rfq1mw" path="res://textures/planks/blue_painted_planks_arm_2k.png" id="4_7gch6"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_gmavl"]
-size = Vector3(10, 10, 10)
-
-[sub_resource type="BoxMesh" id="BoxMesh_47cph"]
-size = Vector3(10, 10, 10)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_84fxg"]
-albedo_texture = ExtResource("2_1up0v")
-roughness_texture = ExtResource("4_7gch6")
-normal_enabled = true
 
 [node name="main" type="Node3D"]
 
@@ -21,17 +8,5 @@ normal_enabled = true
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.999994, 0.00342084, 0, -0.00342084, 0.999994, 0, 9.26497, 18.5936)
-
-[node name="Player" type="Player" parent="."]
-transform = Transform3D(0.999363, 0, 0.0357018, 0, 1, 0, -0.0357018, 0, 0.999363, 0, -3.99919, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
-shape = SubResource("BoxShape3D_gmavl")
-
-[node name="CSGMesh3D" type="CSGMesh3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
-mesh = SubResource("BoxMesh_47cph")
-material = SubResource("StandardMaterial3D_84fxg")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

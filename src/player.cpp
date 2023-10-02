@@ -16,9 +16,9 @@ void Player::_bind_methods() {}
 
 Player::Player() {
     input = Input::get_singleton();
-    gravity = 1200.0;
-    jump_velocity = 200.0;
-    speed = 20;
+    gravity = 1400.0;
+    jump_velocity = 300.0;
+    speed = 75;
     velocity = Vector3(0.0, 0.0, 0.0);
     position = Vector3(0.0, 10.0, 0.0);
     
@@ -73,8 +73,11 @@ void Player::_physics_process(double delta) {
         velocity.x += 1 * speed;
     }
     //set_position(position);
+
+    // gacky way to limit speed, fix later
+    limit_speed(75);
     set_velocity(velocity);
-    apply_friction(600 * delta);
+    apply_friction(800 * delta);
     move_and_slide();
 }
 
@@ -84,6 +87,21 @@ void Player::apply_friction(double p_friction) {
     }
     else {
         velocity = Vector3(0.0, 0.0, 0.0);
+    }
+}
+
+void Player::limit_speed(double limit) {
+    if (velocity.x > limit) {
+        velocity.x = limit;
+    }
+    if (velocity.z > limit) {
+        velocity.z = limit;
+    }
+    if (velocity.x < -limit) {
+        velocity.x = -limit;
+    }
+    if (velocity.z < -limit) {
+        velocity.z = -limit;
     }
 }
 

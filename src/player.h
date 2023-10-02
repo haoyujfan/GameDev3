@@ -32,6 +32,7 @@ class Player : public CharacterBody3D {
         void _ready() override;
         void apply_friction(double p_friction);
         void apply_movement(double acceleration);
+        void limit_speed(double limit);
 
 };
     
