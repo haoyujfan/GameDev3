@@ -13,6 +13,7 @@ class Player : public CharacterBody3D {
     private:
         /* data */
         Vector3 position;
+        Vector3 velocity;
         Input *input;
         double gravity;
         double jump_velocity;
