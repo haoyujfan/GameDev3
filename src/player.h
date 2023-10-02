@@ -18,6 +18,7 @@ class Player : public CharacterBody3D {
         double gravity;
         double jump_velocity;
         double speed;
+        bool jumped;
 
     protected:
         static void _bind_methods();
@@ -28,6 +29,7 @@ class Player : public CharacterBody3D {
 
         void _process(double delta) override;
         void _physics_process(double delta) override;
+        void _ready() override;
 
 };
     

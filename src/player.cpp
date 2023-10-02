@@ -16,11 +16,11 @@ void Player::_bind_methods() {}
 
 Player::Player() {
     input = Input::get_singleton();
-    gravity = 100.0;
-    jump_velocity = 800.0;
+    gravity = 600.0;
+    jump_velocity = 200.0;
     speed = 1;
     velocity = Vector3(0.0, 0.0, 0.0);
-    position = Vector3(0.0,10.0,0.0);
+    position = Vector3(0.0, 10.0, 0.0);
     
     String file_path = "../Assignment2/audio/background.mp3";
     Ref<FileAccess> file = FileAccess::open(file_path, FileAccess::ModeFlags::READ);
@@ -35,40 +35,44 @@ Player::Player() {
 
 Player::~Player() {}
 
+void Player::_ready() {
+    set_position(position);
+}
+
 void Player::_process(double delta) {}
 
 void Player::_physics_process(double delta) {
-
+    //set_position(position);
 
     if (!this->is_on_floor()) {
         velocity.y -= gravity * delta;
         //position.y -= 1;
     }
-    if (this->is_on_floor()) {
-        UtilityFunctions::print("on floor");
-
-    }
-    if (input->is_key_label_pressed(KEY_SPACE) && this->is_on_floor()) {
-        UtilityFunctions::print("space");
+    if (input->is_action_just_pressed("Jump") && this->is_on_floor()) {
         velocity.y = jump_velocity;
+        jumped = true;
     }
-    if (input->is_key_label_pressed(KEY_W)) {
-        position += Vector3(0.0, 0.0, -1.0);
-        //velocity.z += -1;;
+    if (input->is_action_just_pressed("Jump") && !this->is_on_floor() && jumped) {
+        velocity.y = jump_velocity;
+        jumped = false;
     }
-    if (input->is_key_label_pressed(KEY_S)) {
-        position += Vector3(0.0, 0.0, 1.0);
-        //velocity.z += 1;
+    if (input->is_action_pressed("W")) {
+        //position += Vector3(0.0, 0.0, -1.0);
+        velocity.z += -1;
     }
-    if (input->is_key_label_pressed(KEY_A)) {
-        position += Vector3(-1.0, 0.0, 0.0);
-        //velocity.x += -1;
+    if (input->is_action_pressed("S")) {
+        //position += Vector3(0.0, 0.0, 1.0);
+        velocity.z += 1;
     }
-    if (input->is_key_label_pressed(KEY_D)) {
-        position += Vector3(1.0, 0.0, 0.0);
-        //velocity.x += 1;
+    if (input->is_action_pressed("A")) {
+        //position += Vector3(-1.0, 0.0, 0.0);
+        velocity.x += -1;
     }
-    set_position(position);
+    if (input->is_action_pressed("D")) {
+        //position += Vector3(1.0, 0.0, 0.0);
+        velocity.x += 1;
+    }
+    //set_position(position);
     set_velocity(velocity);
     move_and_slide();
 }
