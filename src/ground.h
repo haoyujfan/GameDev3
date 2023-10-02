@@ -1,12 +1,12 @@
 #ifndef GROUND_H
 #define GROUND_H
 
-#include <godot_cpp/classes/area3d.hpp>
+#include <godot_cpp/classes/static_body3d.hpp>
 
 namespace godot {
 
-class Ground : public Area3D {
-    GDCLASS(Ground, Area3D)
+class Ground : public StaticBody3D {
+    GDCLASS(Ground, StaticBody3D)
 
 private:
     Vector3 normal;
