@@ -17,7 +17,7 @@ void Player::_bind_methods() {}
 Player::Player() {
     input = Input::get_singleton();
     gravity = 1000.0;
-    jump_velocity = -800.0;
+    jump_velocity = 800.0;
     speed = 1;
     
     String file_path = "../Assignment2/audio/background.mp3";
@@ -38,8 +38,10 @@ void Player::_process(double delta) {}
 void Player::_physics_process(double delta) {
 
     Vector3 velocity = Vector3(0.0, 0.0, 0.0);
+    move_and_slide();
     if (!this->is_on_floor()) {
-        velocity.y += gravity * delta;
+        velocity.y -= gravity * delta;
+        //position.y -= 1;
     }
     if (this->is_on_floor()) {
         UtilityFunctions::print("on floor");
@@ -66,7 +68,7 @@ void Player::_physics_process(double delta) {
     }
     set_position(position);
     //velocity = velocity;
-    move_and_slide();
+    //move_and_slide();
 }
 
 
