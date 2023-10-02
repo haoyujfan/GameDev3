@@ -6,7 +6,4 @@
 
 [node name="field" parent="." instance=ExtResource("1_6fcu8")]
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.999994, 0.00342084, 0, -0.00342084, 0.999994, 0, 9.26497, 18.5936)
-
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
