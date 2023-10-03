@@ -20,7 +20,6 @@ Camera::~Camera() {}
 
 void Camera::_process(double delta) {
     Player* tgt = Object::cast_to<Player>(get_parent());
-    
     //->get_transform().get_origin();
     //position += tgt;
     //set_position(position);
