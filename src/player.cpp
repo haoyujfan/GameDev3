@@ -28,9 +28,9 @@ Player::Player() {
 
     AudioStreamMP3 *stream = memnew(AudioStreamMP3);
     stream->set_data(file_ptr->get_file_as_bytes(file_path));
-    AudioStreamPlayer *music = memnew(AudioStreamPlayer);
-    music->set_stream(stream);
-    music->play(0.0);
+    // AudioStreamPlayer *music = get_node<AudioStreamPlayer>("Music");
+    // music->set_stream(stream);
+    // music->play(0.0);
 }
 
 Player::~Player() {}
