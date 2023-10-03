@@ -72,6 +72,7 @@ void Player::_physics_process(double delta) {
         //position += Vector3(1.0, 0.0, 0.0);
         velocity.x += 1 * speed;
     }
+    
     //set_position(position);
 
     // gacky way to limit speed, fix later
