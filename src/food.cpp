@@ -65,6 +65,8 @@ void Food::_ready() {
     // connect the signal to area_entered
     this->connect("area_entered", Callable(this, "ball_area_entered"));
     */
+
+    // don't play until press play, not in editor
     String file_path = "res://audio/background.mp3";
     Ref<FileAccess> file = FileAccess::open(file_path, FileAccess::ModeFlags::READ);
     FileAccess *file_ptr = Object::cast_to<FileAccess>(*file);
@@ -72,6 +74,7 @@ void Food::_ready() {
     AudioStreamMP3 *stream = memnew(AudioStreamMP3);
     stream->set_data(file_ptr->get_file_as_bytes(file_path));
     AudioStreamPlayer *music = get_node<AudioStreamPlayer>("AudioStreamPlayer");
+    // play this in different functions
     if (music) {
         UtilityFunctions::print("music connected\n");
         music->set_stream(stream);
