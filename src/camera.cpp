@@ -13,6 +13,7 @@ void Camera::_bind_methods() {}
 
 Camera::Camera() {
     rotation = Vector3(0.0, 0.0, 0.0);
+    transform = new Transform3D();
 }
 
 Camera::~Camera() {}
@@ -31,8 +32,9 @@ void Camera::_input(const Ref<InputEvent> &event) {
 	if (key_event) {
 		UtilityFunctions::print(key_event);
         rotation += Vector3(-1 * key_event->get_relative()[1] / 2, -1 * key_event->get_relative()[0] / 2, 0.0);
+        transform.rotated(Vector3(1.0, 0.0, 0.0), rotation.x / 180);
         //set_rotation_degrees(rotation);
-        rotate(Vector3(1.0,0.0,0.0), .1);
-        //rotate(Vector3(0.0,1.0,0.0), rotation.y/60);
+        //rotate(Vector3(1.0,0.0,0.0), rotation.x/90);
+        //rotate(Vector3(0.0,1.0,0.0), rotation.y/90);
 	}
 }

@@ -3,6 +3,7 @@
 
 #include <godot_cpp/classes/camera3d.hpp>
 #include <godot_cpp/classes/input_event.hpp>
+#include <godot_cpp/variant/transform3d.hpp>
 
 namespace godot {
 
@@ -11,6 +12,7 @@ class Camera : public Camera3D {
 
 private:
     Vector3 rotation;
+    Transform3D transform;
 
 protected:
     static void _bind_methods();
