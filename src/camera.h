@@ -20,6 +20,7 @@ public:
     ~Camera();
     void _process(double delta) override;
     void _input(const Ref<InputEvent> &event);
+    void _physics_process(double delta);
 };
 
 }

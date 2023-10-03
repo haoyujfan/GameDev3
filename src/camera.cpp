@@ -5,6 +5,7 @@
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <cstdlib>
 #include <godot_cpp/classes/input_event_mouse_motion.hpp>
+#include <godot_cpp/classes/input.hpp>
 
 using namespace godot;
 
@@ -22,11 +23,16 @@ void Camera::_process(double delta) {
     //set_position(position);
 }
 
+void Camera::_physics_process(double delta) {
+}
+
 void Camera::_input(const Ref<InputEvent> &event) {
 	const InputEventMouseMotion *key_event = Object::cast_to<const InputEventMouseMotion>(*event);
 	if (key_event) {
 		UtilityFunctions::print(key_event);
         rotation += Vector3(-1 * key_event->get_relative()[1] / 2, -1 * key_event->get_relative()[0] / 2, 0.0);
-        set_rotation_degrees(rotation);
+        //set_rotation_degrees(rotation);
+        rotate(Vector3(1.0,0.0,0.0), .1);
+        //rotate(Vector3(0.0,1.0,0.0), rotation.y/60);
 	}
 }
