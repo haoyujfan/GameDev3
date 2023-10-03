@@ -23,15 +23,7 @@ void Food::_bind_methods() {
 
 // constructor
 Food::Food() {
-    String file_path = "../Assignment2/audio/background.mp3";
-    Ref<FileAccess> file = FileAccess::open(file_path, FileAccess::ModeFlags::READ);
-    FileAccess *file_ptr = Object::cast_to<FileAccess>(*file);
 
-    AudioStreamMP3 *stream = memnew(AudioStreamMP3);
-    stream->set_data(file_ptr->get_file_as_bytes(file_path));
-    AudioStreamPlayer *music = memnew(AudioStreamPlayer);
-    music->set_stream(stream);
-    music->play(0.0);
 }
 
 // destructor
@@ -73,6 +65,18 @@ void Food::_ready() {
     // connect the signal to area_entered
     this->connect("area_entered", Callable(this, "ball_area_entered"));
     */
+    String file_path = "res://audio/background.mp3";
+    Ref<FileAccess> file = FileAccess::open(file_path, FileAccess::ModeFlags::READ);
+    FileAccess *file_ptr = Object::cast_to<FileAccess>(*file);
+
+    AudioStreamMP3 *stream = memnew(AudioStreamMP3);
+    stream->set_data(file_ptr->get_file_as_bytes(file_path));
+    AudioStreamPlayer *music = get_node<AudioStreamPlayer>("AudioStreamPlayer");
+    if (music) {
+        UtilityFunctions::print("music connected\n");
+        music->set_stream(stream);
+        music->play(0.0);
+    }
 }
 
 // handle collisions with other objects
