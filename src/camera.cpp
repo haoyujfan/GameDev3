@@ -13,7 +13,7 @@ void Camera::_bind_methods() {}
 
 Camera::Camera() {
     rotation = Vector3(0.0, 0.0, 0.0);
-    transform = new Transform3D();
+    // transform = new Transform3D();
 }
 
 Camera::~Camera() {}
