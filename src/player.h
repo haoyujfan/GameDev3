@@ -4,6 +4,7 @@
 #include <godot_cpp/classes/character_body3d.hpp>
 #include <godot_cpp/classes/input_event.hpp>
 #include <godot_cpp/classes/input.hpp>
+#include "raycast.h"
 
 using namespace godot;
 
@@ -15,6 +16,7 @@ class Player : public CharacterBody3D {
         Vector3 position;
         Vector3 velocity;
         Input *input;
+        Raycast *ray;
         double gravity;
         double jump_velocity;
         double speed;

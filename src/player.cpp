@@ -8,6 +8,7 @@
 #include <godot_cpp/classes/audio_stream_player.hpp>
 #include <godot_cpp/classes/audio_stream_mp3.hpp>
 
+
 #include <cstdlib>
 
 using namespace godot;
@@ -21,22 +22,13 @@ Player::Player() {
     speed = 75;
     velocity = Vector3(0.0, 0.0, 0.0);
     position = Vector3(0.0, 10.0, 0.0);
-    
-    String file_path = "../Assignment2/audio/background.mp3";
-    Ref<FileAccess> file = FileAccess::open(file_path, FileAccess::ModeFlags::READ);
-    FileAccess *file_ptr = Object::cast_to<FileAccess>(*file);
-
-    AudioStreamMP3 *stream = memnew(AudioStreamMP3);
-    stream->set_data(file_ptr->get_file_as_bytes(file_path));
-    // AudioStreamPlayer *music = get_node<AudioStreamPlayer>("Music");
-    // music->set_stream(stream);
-    // music->play(0.0);
 }
 
 Player::~Player() {}
 
 void Player::_ready() {
     set_position(position);
+    ray = get_node<Raycast>("Raycast");
 }
 
 void Player::_process(double delta) {}
@@ -72,7 +64,10 @@ void Player::_physics_process(double delta) {
         //position += Vector3(1.0, 0.0, 0.0);
         velocity.x += 1 * speed;
     }
-    
+    if (input->is_action_pressed("Shift") && !ray->is_colliding()) {
+        velocity = Vector3(0, 0, 0);
+    }
+
     //set_position(position);
 
     // gacky way to limit speed, fix later
