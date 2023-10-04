@@ -41,7 +41,9 @@ void Player::_process(double delta) {}
 
 void Player::_physics_process(double delta) {
     //set_position(position);
-
+    if (input->is_action_just_pressed("R")) {
+        AD_rotate = !AD_rotate;
+    }
     if (!this->is_on_floor()) {
         velocity.y -= gravity * delta;
         //position.y -= 1;
