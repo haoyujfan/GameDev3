@@ -91,5 +91,17 @@ transform = Transform3D(0.999999, 5.59193e-09, -1.00583e-07, 2.07811e-12, 1, 3.7
 fov = 92.8125
 
 [node name="Raycast" type="Raycast" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2.08165e-12, 5)
+target_position = Vector3(2.08165e-12, -15, 2.08165e-12)
+
+[node name="Raycast2" type="Raycast" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2.08165e-12, -5)
+target_position = Vector3(2.08165e-12, -15, 2.08165e-12)
+
+[node name="Raycast3" type="Raycast" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2.08165e-12, 5)
+target_position = Vector3(2.08165e-12, -15, 2.08165e-12)
+
+[node name="Raycast4" type="Raycast" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2.08165e-12, -5)
 target_position = Vector3(2.08165e-12, -15, 2.08165e-12)

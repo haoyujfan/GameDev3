@@ -16,7 +16,10 @@ class Player : public CharacterBody3D {
         Vector3 position;
         Vector3 velocity;
         Input *input;
-        Raycast *ray;
+        Raycast *ray1;
+        Raycast *ray2;
+        Raycast *ray3;
+        Raycast *ray4;
         double gravity;
         double jump_velocity;
         double speed;

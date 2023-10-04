@@ -28,7 +28,10 @@ Player::~Player() {}
 
 void Player::_ready() {
     set_position(position);
-    ray = get_node<Raycast>("Raycast");
+    ray1 = get_node<Raycast>("Raycast");
+    ray2 = get_node<Raycast>("Raycast2");
+    ray3 = get_node<Raycast>("Raycast3");
+    ray4 = get_node<Raycast>("Raycast4");
 }
 
 void Player::_process(double delta) {}
@@ -64,7 +67,9 @@ void Player::_physics_process(double delta) {
         //position += Vector3(1.0, 0.0, 0.0);
         velocity.x += 1 * speed;
     }
-    if (input->is_action_pressed("Shift") && !ray->is_colliding()) {
+    if (input->is_action_pressed("Shift")) {
+        if (!ray1->is_colliding() || !ray2->is_colliding() ||
+        !ray3->is_colliding() || !ray4->is_colliding())
         velocity = Vector3(0, 0, 0);
     }
 
