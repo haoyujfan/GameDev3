@@ -15,6 +15,7 @@ class Player : public CharacterBody3D {
         /* data */
         Vector3 position;
         Vector3 velocity;
+        Vector3 rotation;
         Input *input;
         Raycast *ray1;
         Raycast *ray2;
@@ -25,6 +26,7 @@ class Player : public CharacterBody3D {
         double speed;
         bool jumped;
         bool hanging;
+        bool AD_rotate;
 
     protected:
         static void _bind_methods();

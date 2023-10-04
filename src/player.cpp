@@ -22,7 +22,9 @@ Player::Player() {
     speed = 75;
     velocity = Vector3(0.0, 0.0, 0.0);
     position = Vector3(0.0, 10.0, 0.0);
+    rotation = Vector3(0.0, 0.0, 0.0);
     hanging = false;
+    AD_rotate = true;
 }
 
 Player::~Player() {}
@@ -60,20 +62,33 @@ void Player::_physics_process(double delta) {
         //position += Vector3(0.0, 0.0, 1.0);
         velocity.z += 1 * speed;
     }
-    if (input->is_action_pressed("A") && !hanging) {
-        //position += Vector3(-1.0, 0.0, 0.0);
-        velocity.x += -1 * speed;
+    if (AD_rotate) {
+        if (input->is_action_pressed("A") && !hanging) {
+            //position += Vector3(-1.0, 0.0, 0.0);
+            rotation.y += 0.05;
+        }
+        if (input->is_action_pressed("D") && !hanging) {
+            //position += Vector3(1.0, 0.0, 0.0);
+            rotation.y += -0.05;
+        }
+    } else {
+        if (input->is_action_pressed("A") && !hanging) {
+            //position += Vector3(-1.0, 0.0, 0.0);
+            velocity.x += -1 * speed;
+        }
+        if (input->is_action_pressed("D") && !hanging) {
+            //position += Vector3(1.0, 0.0, 0.0);
+            velocity.x += 1 * speed;
+        }
     }
-    if (input->is_action_pressed("D") && !hanging) {
-        //position += Vector3(1.0, 0.0, 0.0);
-        velocity.x += 1 * speed;
-    }
+    // ledge stop
     if (input->is_action_pressed("Shift")) {
         if (!ray1->is_colliding() || !ray2->is_colliding() ||
         !ray3->is_colliding() || !ray4->is_colliding()) {
             velocity = Vector3(0, 0, 0);
         }
     }
+    // ledge hang 
     if (input->is_action_pressed("H")) {
         if (!ray1->is_colliding() && !ray2->is_colliding() &&
         !ray3->is_colliding() && !ray4->is_colliding()) {
@@ -81,6 +96,7 @@ void Player::_physics_process(double delta) {
             hanging = true;
         }
     }
+    // ledge climb (jump)
     if (input->is_action_just_pressed("Jump") && hanging) {
         gravity = 1400.0;
         velocity.y = jump_velocity;
@@ -92,6 +108,7 @@ void Player::_physics_process(double delta) {
     // gacky way to limit speed, fix later
     limit_speed(75);
     set_velocity(velocity);
+    set_rotation(rotation);
     apply_friction(800 * delta);
     move_and_slide();
 }
