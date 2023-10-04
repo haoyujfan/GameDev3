@@ -65,7 +65,7 @@ void Player::_physics_process(double delta) {
     if (AD_rotate) {
         if (input->is_action_pressed("A") && !hanging) {
             //position += Vector3(-1.0, 0.0, 0.0);
-            rotation.y += 0.05;
+            rotation.y += -0.05;
         }
         if (input->is_action_pressed("D") && !hanging) {
             //position += Vector3(1.0, 0.0, 0.0);
