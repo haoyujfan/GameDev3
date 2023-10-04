@@ -24,6 +24,7 @@ class Player : public CharacterBody3D {
         double jump_velocity;
         double speed;
         bool jumped;
+        bool hanging;
 
     protected:
         static void _bind_methods();

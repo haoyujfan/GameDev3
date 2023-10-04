@@ -22,6 +22,7 @@ Player::Player() {
     speed = 75;
     velocity = Vector3(0.0, 0.0, 0.0);
     position = Vector3(0.0, 10.0, 0.0);
+    hanging = false;
 }
 
 Player::~Player() {}
@@ -51,26 +52,39 @@ void Player::_physics_process(double delta) {
         velocity.y = jump_velocity;
         jumped = false;
     }
-    if (input->is_action_pressed("W")) {
+    if (input->is_action_pressed("W") && !hanging) {
         //position += Vector3(0.0, 0.0, -1.0);
         velocity.z += -1 * speed;
     }
-    if (input->is_action_pressed("S")) {
+    if (input->is_action_pressed("S") && !hanging) {
         //position += Vector3(0.0, 0.0, 1.0);
         velocity.z += 1 * speed;
     }
-    if (input->is_action_pressed("A")) {
+    if (input->is_action_pressed("A") && !hanging) {
         //position += Vector3(-1.0, 0.0, 0.0);
         velocity.x += -1 * speed;
     }
-    if (input->is_action_pressed("D")) {
+    if (input->is_action_pressed("D") && !hanging) {
         //position += Vector3(1.0, 0.0, 0.0);
         velocity.x += 1 * speed;
     }
     if (input->is_action_pressed("Shift")) {
         if (!ray1->is_colliding() || !ray2->is_colliding() ||
-        !ray3->is_colliding() || !ray4->is_colliding())
-        velocity = Vector3(0, 0, 0);
+        !ray3->is_colliding() || !ray4->is_colliding()) {
+            velocity = Vector3(0, 0, 0);
+        }
+    }
+    if (input->is_action_pressed("H")) {
+        if (!ray1->is_colliding() && !ray2->is_colliding() &&
+        !ray3->is_colliding() && !ray4->is_colliding()) {
+            gravity = 0;
+            hanging = true;
+        }
+    }
+    if (input->is_action_just_pressed("Jump") && hanging) {
+        gravity = 1400.0;
+        velocity.y = jump_velocity;
+        hanging = false;
     }
 
     //set_position(position);
