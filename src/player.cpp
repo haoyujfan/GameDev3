@@ -8,6 +8,7 @@
 #include <godot_cpp/classes/audio_stream_player.hpp>
 #include <godot_cpp/classes/audio_stream_mp3.hpp>
 
+
 #include <cstdlib>
 
 using namespace godot;
@@ -21,29 +22,28 @@ Player::Player() {
     speed = 75;
     velocity = Vector3(0.0, 0.0, 0.0);
     position = Vector3(0.0, 10.0, 0.0);
-    
-    String file_path = "../Assignment2/audio/background.mp3";
-    Ref<FileAccess> file = FileAccess::open(file_path, FileAccess::ModeFlags::READ);
-    FileAccess *file_ptr = Object::cast_to<FileAccess>(*file);
-
-    AudioStreamMP3 *stream = memnew(AudioStreamMP3);
-    stream->set_data(file_ptr->get_file_as_bytes(file_path));
-    // AudioStreamPlayer *music = get_node<AudioStreamPlayer>("Music");
-    // music->set_stream(stream);
-    // music->play(0.0);
+    rotation = Vector3(0.0, 0.0, 0.0);
+    hanging = false;
+    AD_rotate = true;
 }
 
 Player::~Player() {}
 
 void Player::_ready() {
     set_position(position);
+    ray1 = get_node<Raycast>("Raycast");
+    ray2 = get_node<Raycast>("Raycast2");
+    ray3 = get_node<Raycast>("Raycast3");
+    ray4 = get_node<Raycast>("Raycast4");
 }
 
 void Player::_process(double delta) {}
 
 void Player::_physics_process(double delta) {
     //set_position(position);
-
+    if (input->is_action_just_pressed("R")) {
+        AD_rotate = !AD_rotate;
+    }
     if (!this->is_on_floor()) {
         velocity.y -= gravity * delta;
         //position.y -= 1;
@@ -56,28 +56,61 @@ void Player::_physics_process(double delta) {
         velocity.y = jump_velocity;
         jumped = false;
     }
-    if (input->is_action_pressed("W")) {
+    if (input->is_action_pressed("W") && !hanging) {
         //position += Vector3(0.0, 0.0, -1.0);
         velocity.z += -1 * speed;
     }
-    if (input->is_action_pressed("S")) {
+    if (input->is_action_pressed("S") && !hanging) {
         //position += Vector3(0.0, 0.0, 1.0);
         velocity.z += 1 * speed;
     }
-    if (input->is_action_pressed("A")) {
-        //position += Vector3(-1.0, 0.0, 0.0);
-        velocity.x += -1 * speed;
+    if (AD_rotate) {
+        if (input->is_action_pressed("A") && !hanging) {
+            //position += Vector3(-1.0, 0.0, 0.0);
+            rotation.y += 0.05;
+        }
+        if (input->is_action_pressed("D") && !hanging) {
+            //position += Vector3(1.0, 0.0, 0.0);
+            rotation.y += -0.05;
+        }
+    } else {
+        if (input->is_action_pressed("A") && !hanging) {
+            //position += Vector3(-1.0, 0.0, 0.0);
+            velocity.x += -1 * speed;
+        }
+        if (input->is_action_pressed("D") && !hanging) {
+            //position += Vector3(1.0, 0.0, 0.0);
+            velocity.x += 1 * speed;
+        }
     }
-    if (input->is_action_pressed("D")) {
-        //position += Vector3(1.0, 0.0, 0.0);
-        velocity.x += 1 * speed;
+    // ledge stop
+    if (input->is_action_pressed("Shift")) {
+        if (!ray1->is_colliding() || !ray2->is_colliding() ||
+        !ray3->is_colliding() || !ray4->is_colliding()) {
+            velocity = Vector3(0, 0, 0);
+        }
     }
-    
+    // ledge hang 
+    if (input->is_action_pressed("H")) {
+        if (!ray1->is_colliding() && !ray2->is_colliding() &&
+        !ray3->is_colliding() && !ray4->is_colliding()) {
+            gravity = 0;
+            hanging = true;
+        }
+    }
+    // ledge climb (jump)
+    if (input->is_action_just_pressed("Jump") && hanging) {
+        gravity = 1400.0;
+        velocity.y = jump_velocity;
+        hanging = false;
+    }
+
     //set_position(position);
 
     // gacky way to limit speed, fix later
     limit_speed(75);
     set_velocity(velocity);
+    set_rotation(rotation);
     apply_friction(800 * delta);
     move_and_slide();
 }
