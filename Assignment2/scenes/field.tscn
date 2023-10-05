@@ -95,7 +95,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2.08165e-12, 5)
 target_position = Vector3(2.08165e-12, -15, 2.08165e-12)
 
 [node name="Raycast2" type="Raycast" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2.08165e-12, -5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.09413, 0, 2.15335)
 target_position = Vector3(2.08165e-12, -15, 2.08165e-12)
 
 [node name="Raycast3" type="Raycast" parent="Player"]
@@ -105,3 +105,7 @@ target_position = Vector3(2.08165e-12, -15, 2.08165e-12)
 [node name="Raycast4" type="Raycast" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2.08165e-12, -5)
 target_position = Vector3(2.08165e-12, -15, 2.08165e-12)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Player"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

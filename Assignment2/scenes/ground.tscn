@@ -34,6 +34,7 @@ size = Vector2(100, 100)
 shape = SubResource("BoxShape3D_gxky2")
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.19204, 0.221684, -0.242911)
 mesh = SubResource("BoxMesh_l2i3b")
 material = SubResource("StandardMaterial3D_6k870")
 
@@ -41,3 +42,6 @@ material = SubResource("StandardMaterial3D_6k870")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 visible = false
 mesh = SubResource("PlaneMesh_6dw0p")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -9.905

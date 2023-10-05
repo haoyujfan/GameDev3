@@ -8,6 +8,7 @@ size = Vector3(2, 2, 2)
 
 [node name="Player" type="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+velocity = Vector3(0, -1533.33, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_a30hd")

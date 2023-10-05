@@ -3,7 +3,7 @@
 #include <godot_cpp/classes/random_number_generator.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/input.hpp>
-
+#include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/audio_stream_player.hpp>
 #include <godot_cpp/classes/audio_stream_mp3.hpp>
@@ -13,7 +13,9 @@
 
 using namespace godot;
 
-void Player::_bind_methods() {}
+void Player::_bind_methods() {
+    //ClassDB::bind_method(D_METHOD("player_area_entered", "area"), &Player::player_area_entered);
+}
 
 Player::Player() {
     input = Input::get_singleton();
@@ -31,6 +33,8 @@ Player::~Player() {}
 
 void Player::_ready() {
     set_position(position);
+    initialize_sound();
+    //this->connect("area_entered", Callable(this, "player_area_entered"));
     ray1 = get_node<Raycast>("Raycast");
     ray2 = get_node<Raycast>("Raycast2");
     ray3 = get_node<Raycast>("Raycast3");
@@ -58,11 +62,11 @@ void Player::_physics_process(double delta) {
     }
     if (input->is_action_pressed("W") && !hanging) {
         //position += Vector3(0.0, 0.0, -1.0);
-        velocity.z += -1 * speed;
+        velocity = -get_global_transform().basis.xform(Vector3(0.0, 0.0, 1.0)).normalized() * speed;
     }
     if (input->is_action_pressed("S") && !hanging) {
         //position += Vector3(0.0, 0.0, 1.0);
-        velocity.z += 1 * speed;
+        velocity = get_global_transform().basis.xform(Vector3(0.0, 0.0, 1.0)).normalized() * speed;
     }
     if (AD_rotate) {
         if (input->is_action_pressed("A") && !hanging) {
@@ -138,6 +142,63 @@ void Player::limit_speed(double limit) {
         velocity.z = -limit;
     }
 }
+
+void Player::initialize_sound() {
+    // String clonk_path = "res://audio/clonk.mp3";
+    // Ref<FileAccess> clonk_file = FileAccess::open(clonk_path, FileAccess::ModeFlags::READ);
+    // FileAccess *clonk_ptr = Object::cast_to<FileAccess>(*clonk_file);
+    // empty_interact = memnew(AudioStreamMP3);
+    // empty_interact->set_data(clonk_ptr->get_file_as_bytes(clonk_path));
+
+    // String squish_path = "res://audio/squish.mp3";
+    // Ref<FileAccess> squish_file = FileAccess::open(squish_path, FileAccess::ModeFlags::READ);
+    // FileAccess *squish_ptr = Object::cast_to<FileAccess>(*squish_file);
+    // interact = memnew(AudioStreamMP3);
+    // interact->set_data(squish_ptr->get_file_as_bytes(squish_path));
+
+    // String hurt_path = "res://audio/hurt.mp3";
+    // Ref<FileAccess> hurt_file = FileAccess::open(hurt_path, FileAccess::ModeFlags::READ);
+    // FileAccess *hurt_ptr = Object::cast_to<FileAccess>(*hurt_file);
+    // hurt = memnew(AudioStreamMP3);
+    // hurt->set_data(hurt_ptr->get_file_as_bytes(hurt_path));
+
+    
+    // sound_effects = get_node<AudioStreamPlayer>("AudioStreamPlayer");
+    // // play this in different functions
+}
+
+// void Player::play_hurt() {
+//     if (sound_effects && !Engine::get_singleton()->is_editor_hint()) {
+//         sound_effects->set_stream(hurt);
+//         sound_effects->set_volume_db(-12.0);
+//         sound_effects->play(0.0);
+//     }
+// }
+
+// void Player::play_empty() {
+//     if (sound_effects && !Engine::get_singleton()->is_editor_hint()) {
+//         sound_effects->set_stream(empty_interact);
+//         sound_effects->set_volume_db(-12.0);
+//         sound_effects->play(0.0);
+//     }
+// }
+
+// void Player::play_interaction() {
+//     if (sound_effects && !Engine::get_singleton()->is_editor_hint()) {
+//         sound_effects->set_stream(interact);
+//         sound_effects->set_volume_db(-12.0);
+//         sound_effects->play(0.0);
+//     }
+// }
+
+// void Player::player_area_entered(const Area3D* area) {
+//     if (area->get_class() == "Cactus") {
+//         play_hurt();
+//     }
+//     if (area->get_class() == "Food") {
+//         play_interaction();
+//     }
+// }
 
 // void Player::apply_movement(double acceleration) {
 //     velocity += acceleration;

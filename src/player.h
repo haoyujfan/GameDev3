@@ -4,6 +4,9 @@
 #include <godot_cpp/classes/character_body3d.hpp>
 #include <godot_cpp/classes/input_event.hpp>
 #include <godot_cpp/classes/input.hpp>
+#include <godot_cpp/classes/audio_stream_player.hpp>
+#include <godot_cpp/classes/audio_stream_mp3.hpp>
+#include <godot_cpp/classes/area3d.hpp>
 #include "raycast.h"
 
 using namespace godot;
@@ -17,10 +20,17 @@ class Player : public CharacterBody3D {
         Vector3 velocity;
         Vector3 rotation;
         Input *input;
+
         Raycast *ray1;
         Raycast *ray2;
         Raycast *ray3;
         Raycast *ray4;
+
+        AudioStreamMP3 *empty_interact;
+        // AudioStreamMP3 *interact;
+        AudioStreamMP3 *hurt;
+        // AudioStreamPlayer *sound_effects;
+
         double gravity;
         double jump_velocity;
         double speed;
@@ -41,6 +51,11 @@ class Player : public CharacterBody3D {
         void apply_friction(double p_friction);
         void apply_movement(double acceleration);
         void limit_speed(double limit);
+        void play_hurt();
+        void play_empty();
+        void play_interaction();
+        void initialize_sound();
+        void player_area_entered(const Area3D* area);
 
 };
     
