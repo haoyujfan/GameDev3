@@ -18,7 +18,7 @@ void Player::_bind_methods() {
 }
 
 Player::Player() {
-    input = Input::get_singleton();
+    //input = Input::get_singleton();
     gravity = 1400.0;
     jump_velocity = 300.0;
     speed = 75;
@@ -44,18 +44,18 @@ void Player::_process(double delta) {}
 
 void Player::_physics_process(double delta) {
     //set_position(position);
-    if (input->is_action_just_pressed("R")) {
+    if (Input::get_singleton()->is_action_just_pressed("R")) {
         AD_rotate = !AD_rotate;
     }
     if (!this->is_on_floor()) {
         velocity.y -= gravity * delta;
         //position.y -= 1;
     }
-    if (input->is_action_just_pressed("Jump") && this->is_on_floor()) {
+    if (Input::get_singleton()->is_action_just_pressed("Jump") && this->is_on_floor()) {
         velocity.y = jump_velocity;
         jumped = true;
     }
-    if (input->is_action_just_pressed("Jump") && !this->is_on_floor() && jumped) {
+    if (Input::get_singleton()->is_action_just_pressed("Jump") && !this->is_on_floor() && jumped) {
         velocity.y = jump_velocity;
         jumped = false;
     }
@@ -66,7 +66,7 @@ void Player::_physics_process(double delta) {
         strafe_wasd();
     }
     // ledge climb (jump)
-    if (input->is_action_just_pressed("Jump") && hanging) {
+    if (Input::get_singleton()->is_action_just_pressed("Jump") && hanging) {
         gravity = 1400.0;
         velocity.y = jump_velocity;
         hanging = false;
@@ -83,38 +83,38 @@ void Player::_physics_process(double delta) {
 }
 
 void Player::rotate_wasd() {
-    if (input->is_action_pressed("W") && !hanging) {
+    if (Input::get_singleton()->is_action_pressed("W") && !hanging) {
         //position += Vector3(0.0, 0.0, -1.0);
         velocity = -get_global_transform().basis.xform(Vector3(0.0, 0.0, 1.0)).normalized() * speed;
     }
-    if (input->is_action_pressed("S") && !hanging) {
+    if (Input::get_singleton()->is_action_pressed("S") && !hanging) {
         //position += Vector3(0.0, 0.0, 1.0);
         velocity = get_global_transform().basis.xform(Vector3(0.0, 0.0, 1.0)).normalized() * speed;
     }
-    if (input->is_action_pressed("A") && !hanging) {
+    if (Input::get_singleton()->is_action_pressed("A") && !hanging) {
         //position += Vector3(-1.0, 0.0, 0.0);
         rotation.y += 0.05;
     }
-    if (input->is_action_pressed("D") && !hanging) {
+    if (Input::get_singleton()->is_action_pressed("D") && !hanging) {
         //position += Vector3(1.0, 0.0, 0.0);
         rotation.y += -0.05;
     }
 }
 
 void Player::strafe_wasd() {
-    if (input->is_action_pressed("W") && !hanging) {
+    if (Input::get_singleton()->is_action_pressed("W") && !hanging) {
         //position += Vector3(0.0, 0.0, -1.0);
         velocity += get_global_transform().basis.xform(Vector3(0.0, 0.0, -1.0)).normalized() * speed;
     }
-    if (input->is_action_pressed("S") && !hanging) {
+    if (Input::get_singleton()->is_action_pressed("S") && !hanging) {
         //position += Vector3(0.0, 0.0, 1.0);
         velocity += get_global_transform().basis.xform(Vector3(0.0, 0.0, 1.0)).normalized() * speed;
     }
-    if (input->is_action_pressed("A") && !hanging) {
+    if (Input::get_singleton()->is_action_pressed("A") && !hanging) {
         //position += Vector3(-1.0, 0.0, 0.0);
         velocity += get_global_transform().basis.xform(Vector3(-1.0, 0.0, 0.0)).normalized() * speed;
     }
-    if (input->is_action_pressed("D") && !hanging) {
+    if (Input::get_singleton()->is_action_pressed("D") && !hanging) {
         //position += Vector3(1.0, 0.0, 0.0);
         velocity += get_global_transform().basis.xform(Vector3(1.0, 0.0, 0.0)).normalized() * speed;
     }
