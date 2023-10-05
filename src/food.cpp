@@ -6,6 +6,7 @@
 #include <godot_cpp/classes/audio_stream_player.hpp>
 #include <godot_cpp/classes/audio_stream_mp3.hpp>
 #include <godot_cpp/classes/file_access.hpp>
+#include <godot_cpp/classes/engine.hpp>
 #include <iostream>
 #include <stdlib.h>
 
@@ -44,28 +45,6 @@ void Food::_process(double delta) {
 
 // initialize the food when its children are ready 
 void Food::_ready() {
-    // get the name of the Food and apply set position based on the name
-   /* String name = this->get_name();
-    if (name == "Food") {
-        position = Vector3(15.0, 2.0, 40.0);
-        set_position(position);
-    }
-    else if (name == "Food2") {
-        position = Vector3(-17.0, 2.0, 25.0);
-        set_position(position);
-    }
-    else if (name == "Food3") {
-        position = Vector3(5.0, 2.0, -4.0);
-        set_position(position);
-    } else if (name == "Food4") {
-        position = Vector3(-7.0, 2.0, -20.0);
-        set_position(position);
-    }
-
-    // connect the signal to area_entered
-    this->connect("area_entered", Callable(this, "ball_area_entered"));
-    */
-
     // don't play until press play, not in editor
     String file_path = "res://audio/background.mp3";
     Ref<FileAccess> file = FileAccess::open(file_path, FileAccess::ModeFlags::READ);
@@ -75,7 +54,7 @@ void Food::_ready() {
     stream->set_data(file_ptr->get_file_as_bytes(file_path));
     AudioStreamPlayer *music = get_node<AudioStreamPlayer>("AudioStreamPlayer");
     // play this in different functions
-    if (music) {
+    if (music && !Engine::get_singleton()->is_editor_hint()) {
         UtilityFunctions::print("music connected\n");
         music->set_stream(stream);
         music->play(0.0);
