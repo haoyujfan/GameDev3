@@ -51,11 +51,8 @@ class Player : public CharacterBody3D {
         void apply_friction(double p_friction);
         void apply_movement(double acceleration);
         void limit_speed(double limit);
-        void play_hurt();
-        void play_empty();
-        void play_interaction();
-        void initialize_sound();
-        void player_area_entered(const Area3D* area);
+        void rotate_wasd();
+        void strafe_wasd();
 
 };
     

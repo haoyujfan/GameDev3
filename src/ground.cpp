@@ -36,7 +36,7 @@ void Ground::_ready() {
     if (music && !Engine::get_singleton()->is_editor_hint()) {
         UtilityFunctions::print("music connected\n");
         music->set_stream(stream);
-        music->set_volume_db(-12.0);
+        music->set_volume_db(-17.0);
         music->play(0.0);
     }
 }

@@ -3,6 +3,10 @@
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/random_number_generator.hpp>
+#include <godot_cpp/classes/audio_stream_player.hpp>
+#include <godot_cpp/classes/audio_stream_mp3.hpp>
+#include <godot_cpp/classes/file_access.hpp>
+#include <godot_cpp/classes/engine.hpp>
 #include <stdlib.h>
 
 using namespace godot;
@@ -14,7 +18,7 @@ void Cactus::_bind_methods() {
     ClassDB::add_property("Cactus", PropertyInfo(Variant::INT, "value", PROPERTY_HINT_RANGE, 
         "0, 3, 1"), "set_value", "get_value");
 
-    ClassDB::bind_method(D_METHOD("ball_area_entered", "area"), &Cactus::ball_area_entered);
+    ClassDB::bind_method(D_METHOD("cactus_body_entered", "area"), &Cactus::cactus_body_entered);
 }
 
 // constructor
@@ -33,33 +37,32 @@ void Cactus::_process(double delta) {
 
 // initialize the cactus when its children are ready 
 void Cactus::_ready() {
-    // get the name of the Ball and apply set position based on the name
-    String name = this->get_name();
-    if (name == "Cactus") {
-        position = Vector3(20.0, 3.0, -24.0);
-        set_position(position);
-    }
-    else if (name == "Cactus2") {
-        position = Vector3(-4.0, 3.0, 40.0);
-        set_position(position);
-    }
-    else if (name == "Cactus3") {
-        position = Vector3(5.0, 3.0, -35.0);
-        set_position(position);
-    } else if (name == "Cactus4") {
-        position = Vector3(-16.0, 3.0, -20.0);
-        set_position(position);
-    }
+    initialize_sound();
+    this->connect("body_entered", Callable(this, "cactus_body_entered"));
+}
 
-    // connect the signal to area_entered
-    this->connect("area_entered", Callable(this, "ball_area_entered"));
+void Cactus::initialize_sound() {
+    String hurt_path = "res://audio/hurt.mp3";
+    Ref<FileAccess> hurt_file = FileAccess::open(hurt_path, FileAccess::ModeFlags::READ);
+    FileAccess *hurt_ptr = Object::cast_to<FileAccess>(*hurt_file);
+    hurt = memnew(AudioStreamMP3);
+    hurt->set_data(hurt_ptr->get_file_as_bytes(hurt_path));
+    sound_effects = get_node<AudioStreamPlayer>("AudioStreamPlayer");
+    // play this in different functions
+}
+
+void Cactus::play_interact() {
+    if (sound_effects && !Engine::get_singleton()->is_editor_hint()) {
+        sound_effects->set_stream(hurt);
+        sound_effects->set_volume_db(-12.0);
+        sound_effects->play(0.0);
+    }
 }
 
 // handle collisions with other objects
-void Cactus::ball_area_entered(const Area3D* area) {
-    // handle cactus collision
-    if (area->get_class() == "Cactus") {
-        const Cactus* cactus_collide = Object::cast_to<Cactus>(area);
+void Cactus::cactus_body_entered(const Node3D* node) {
+    if (node->get_class() == "Player") {
+        play_interact();
     }
 }
 

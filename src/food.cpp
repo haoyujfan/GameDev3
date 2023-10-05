@@ -59,7 +59,7 @@ void Food::initialize_sound() {
     interact->set_data(squish_ptr->get_file_as_bytes(squish_path));
 
 
-    sound_effects = get_node<AudioStreamPlayer>("../AudioStreamPlayer");
+    sound_effects = get_node<AudioStreamPlayer>("AudioStreamPlayer");
     // play this in different functions
 }
 
@@ -72,9 +72,7 @@ void Food::play_interact() {
 }
 
 void Food::food_body_entered(const Node3D* node) {
-    UtilityFunctions::print("entered\n");
     if (node->get_class() == "Player") {
-        UtilityFunctions::print("Player\n");
         play_interact();
     }
 }
