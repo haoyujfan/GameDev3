@@ -13,9 +13,11 @@ class Food : public Area3D {
 private:
     Vector3 position;
     int value;
-    bool pickup;
-    AudioStreamPlayer *sound_effects;
+    bool entered;
+    AudioStreamPlayer *interact_player;
+    AudioStreamPlayer *empty_interact_player;
     AudioStreamMP3 *interact;
+    AudioStreamMP3 *empty_interact;
 
 protected:
     static void _bind_methods();
@@ -30,7 +32,9 @@ public:
     void set_value(const int p_value);
     void initialize_sound();
     void play_interact();
+    void play_empty_interact();
     void food_body_entered(const Node3D *node);
+    void food_body_exited(const Node3D *node);
 
 };
 

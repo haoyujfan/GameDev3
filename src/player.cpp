@@ -15,6 +15,7 @@ using namespace godot;
 
 void Player::_bind_methods() {
     //ClassDB::bind_method(D_METHOD("player_area_entered", "area"), &Player::player_area_entered);
+    //ClassDB::bind_method(D_METHOD("_physics_process", "delta"), &Player::_physics_process);
 }
 
 Player::Player() {
@@ -143,22 +144,6 @@ void Player::limit_speed(double limit) {
         velocity.z = -limit;
     }
 }
-
-
-    // String clonk_path = "res://audio/clonk.mp3";
-    // Ref<FileAccess> clonk_file = FileAccess::open(clonk_path, FileAccess::ModeFlags::READ);
-    // FileAccess *clonk_ptr = Object::cast_to<FileAccess>(*clonk_file);
-    // empty_interact = memnew(AudioStreamMP3);
-    // empty_interact->set_data(clonk_ptr->get_file_as_bytes(clonk_path));
-
-
-// void Player::play_empty() {
-//     if (sound_effects && !Engine::get_singleton()->is_editor_hint()) {
-//         sound_effects->set_stream(empty_interact);
-//         sound_effects->set_volume_db(-12.0);
-//         sound_effects->play(0.0);
-//     }
-// }
 
 // void Player::apply_movement(double acceleration) {
 //     velocity += acceleration;
