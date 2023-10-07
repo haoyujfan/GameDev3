@@ -65,18 +65,28 @@ void Player::_physics_process(double delta) {
         velocity.y = jump_velocity;
         jumped = false;
     }
-    // WASD movement
-    if (AD_rotate) {
-        rotate_wasd();
-    }
-    else {
-        strafe_wasd();
-    }
     // ledge stop (shift)
-    if (input->is_action_pressed("Shift")) {
-        if (!ray1->is_colliding() || !ray2->is_colliding() ||
-        !ray3->is_colliding() || !ray4->is_colliding())
-        velocity = Vector3(0, 0, 0);
+    if (Input::get_singleton()->is_action_pressed("Shift")) {
+        if (ray1->is_colliding() || ray2->is_colliding() ||
+        ray3->is_colliding() || ray4->is_colliding()) {
+            // WASD movement
+            if (AD_rotate) {
+                rotate_wasd();
+            }
+            else {
+                strafe_wasd();
+            }
+        } else {
+            gravity = 0;
+        }
+    } else {
+        // WASD movement
+        if (AD_rotate) {
+            rotate_wasd();
+        }
+        else {
+            strafe_wasd();
+        }
     }
     // gliding (g)
     if (Input::get_singleton()->is_action_pressed("G")) {
