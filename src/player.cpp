@@ -49,6 +49,10 @@ void Player::_physics_process(double delta) {
     if (Input::get_singleton()->is_action_just_pressed("R")) {
         AD_rotate = !AD_rotate;
     }
+    // reset gravity 
+    if (this->is_on_floor()) {
+        gravity = 1400.0;
+    }
     // gravity and jumping
     if (!this->is_on_floor()) {
         velocity.y -= gravity * delta;
@@ -74,6 +78,13 @@ void Player::_physics_process(double delta) {
         gravity = 1400.0;
         velocity.y = jump_velocity;
         hanging = false;
+    }
+    // gliding with (g)
+    if (Input::get_singleton()->is_action_pressed("G")) {
+        gravity = 800.0;
+    }
+    if (Input::get_singleton()->is_action_just_released("G")) {
+        gravity = 1400.0;
     }
     // gacky way to limit speed, fix later
     limit_speed(75);
