@@ -45,10 +45,11 @@ void Player::_ready() {
 void Player::_process(double delta) {}
 
 void Player::_physics_process(double delta) {
-    //set_position(position);
+    // sets rotate mode or strafe mode
     if (Input::get_singleton()->is_action_just_pressed("R")) {
         AD_rotate = !AD_rotate;
     }
+    // gravity and jumping
     if (!this->is_on_floor()) {
         velocity.y -= gravity * delta;
         //position.y -= 1;
@@ -61,6 +62,7 @@ void Player::_physics_process(double delta) {
         velocity.y = jump_velocity;
         jumped = false;
     }
+    // WASD movement
     if (AD_rotate) {
         rotate_wasd();
     }
@@ -73,13 +75,9 @@ void Player::_physics_process(double delta) {
         velocity.y = jump_velocity;
         hanging = false;
     }
-
-    //set_position(position);
-
     // gacky way to limit speed, fix later
     limit_speed(75);
     set_velocity(velocity);
-    // set_rotation(rotation);
     apply_friction(800 * delta);
     move_and_slide();
 }
