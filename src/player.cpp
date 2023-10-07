@@ -7,6 +7,7 @@
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/audio_stream_player.hpp>
 #include <godot_cpp/classes/audio_stream_mp3.hpp>
+#include <godot_cpp/variant/transform3d.hpp>
 
 
 #include <cstdlib>
@@ -86,38 +87,46 @@ void Player::_physics_process(double delta) {
 void Player::rotate_wasd() {
     if (Input::get_singleton()->is_action_pressed("W") && !hanging) {
         //position += Vector3(0.0, 0.0, -1.0);
-        velocity = -get_global_transform().basis.xform(Vector3(0.0, 0.0, 1.0)).normalized() * speed;
+        // velocity = -get_global_transform().basis.xform(Vector3(0.0, 0.0, 1.0)).normalized() * speed;
+        translate_object_local(-transform.get_basis().get_column(2));
     }
     if (Input::get_singleton()->is_action_pressed("S") && !hanging) {
         //position += Vector3(0.0, 0.0, 1.0);
-        velocity = get_global_transform().basis.xform(Vector3(0.0, 0.0, 1.0)).normalized() * speed;
+        // velocity = get_global_transform().basis.xform(Vector3(0.0, 0.0, 1.0)).normalized() * speed;
+        translate_object_local(transform.get_basis().get_column(2));
     }
     if (Input::get_singleton()->is_action_pressed("A") && !hanging) {
         //position += Vector3(-1.0, 0.0, 0.0);
-        rotation.y += 0.05;
+        // rotation.y += 0.05;
+        rotate_object_local(Vector3(0, 0, 1), 1);
     }
     if (Input::get_singleton()->is_action_pressed("D") && !hanging) {
         //position += Vector3(1.0, 0.0, 0.0);
-        rotation.y += -0.05;
+        // rotation.y += -0.05;
+        rotate_object_local(Vector3(0, 0, 1), -1);
     }
 }
 
 void Player::strafe_wasd() {
     if (Input::get_singleton()->is_action_pressed("W") && !hanging) {
         //position += Vector3(0.0, 0.0, -1.0);
-        velocity += get_global_transform().basis.xform(Vector3(0.0, 0.0, -1.0)).normalized() * speed;
+        // velocity += get_global_transform().basis.xform(Vector3(0.0, 0.0, -1.0)).normalized() * speed;
+        translate_object_local(-transform.get_basis().get_column(2));
     }
     if (Input::get_singleton()->is_action_pressed("S") && !hanging) {
         //position += Vector3(0.0, 0.0, 1.0);
-        velocity += get_global_transform().basis.xform(Vector3(0.0, 0.0, 1.0)).normalized() * speed;
+        // velocity += get_global_transform().basis.xform(Vector3(0.0, 0.0, 1.0)).normalized() * speed;
+        translate_object_local(transform.get_basis().get_column(2));
     }
     if (Input::get_singleton()->is_action_pressed("A") && !hanging) {
         //position += Vector3(-1.0, 0.0, 0.0);
-        velocity += get_global_transform().basis.xform(Vector3(-1.0, 0.0, 0.0)).normalized() * speed;
+        // velocity += get_global_transform().basis.xform(Vector3(-1.0, 0.0, 0.0)).normalized() * speed;
+        translate_object_local(-transform.get_basis().get_column(0));
     }
     if (Input::get_singleton()->is_action_pressed("D") && !hanging) {
         //position += Vector3(1.0, 0.0, 0.0);
-        velocity += get_global_transform().basis.xform(Vector3(1.0, 0.0, 0.0)).normalized() * speed;
+        // velocity += get_global_transform().basis.xform(Vector3(1.0, 0.0, 0.0)).normalized() * speed;
+        translate_object_local(transform.get_basis().get_column(0));
     }
 }
 

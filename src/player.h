@@ -20,7 +20,7 @@ class Player : public CharacterBody3D {
         Vector3 velocity;
         Vector3 rotation;
         Input *input;
-
+        Transform3D transform;
         Raycast *ray1;
         Raycast *ray2;
         Raycast *ray3;
