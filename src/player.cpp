@@ -26,7 +26,6 @@ Player::Player() {
     speed = 75;
     velocity = Vector3(0.0, 0.0, 0.0);
     position = Vector3(0.0, 10.0, 0.0);
-    rotation = Vector3(0.0, 0.0, 0.0);
     hanging = false;
     AD_rotate = true;
 }
@@ -73,13 +72,13 @@ void Player::_physics_process(double delta) {
     else {
         strafe_wasd();
     }
-    // ledge climb (jump)
-    if (Input::get_singleton()->is_action_just_pressed("Jump") && hanging) {
-        gravity = 1400.0;
-        velocity.y = jump_velocity;
-        hanging = false;
+    // ledge stop (shift)
+    if (input->is_action_pressed("Shift")) {
+        if (!ray1->is_colliding() || !ray2->is_colliding() ||
+        !ray3->is_colliding() || !ray4->is_colliding())
+        velocity = Vector3(0, 0, 0);
     }
-    // gliding with (g)
+    // gliding (g)
     if (Input::get_singleton()->is_action_pressed("G")) {
         gravity = 800.0;
     }

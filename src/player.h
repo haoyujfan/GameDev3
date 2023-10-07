@@ -18,7 +18,6 @@ class Player : public CharacterBody3D {
         /* data */
         Vector3 position;
         Vector3 velocity;
-        Vector3 rotation;
         Input *input;
         Transform3D transform;
         Raycast *ray1;

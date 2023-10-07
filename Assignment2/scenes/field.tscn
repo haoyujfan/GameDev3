@@ -1,21 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://x1pdr2wgcjuj"]
+[gd_scene load_steps=5 format=3 uid="uid://x1pdr2wgcjuj"]
 
 [ext_resource type="PackedScene" uid="uid://dr6dyo4wnjsbk" path="res://scenes/ground.tscn" id="1_lyp0q"]
 [ext_resource type="PackedScene" uid="uid://dl8g5ltkkkf6q" path="res://scenes/food.tscn" id="2_71hdr"]
 [ext_resource type="PackedScene" uid="uid://clclk7iemgvat" path="res://scenes/cactus.tscn" id="3_abjbr"]
-[ext_resource type="Texture2D" uid="uid://cv5yqm8fxqtl6" path="res://textures/planks/blue_painted_planks_diff_2k.png" id="4_m7pds"]
-[ext_resource type="Texture2D" uid="uid://cugryu8rfq1mw" path="res://textures/planks/blue_painted_planks_arm_2k.png" id="5_grw4e"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_jkw8o"]
-size = Vector3(10, 10, 10)
-
-[sub_resource type="BoxMesh" id="BoxMesh_e7vlo"]
-size = Vector3(10, 10, 10)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f3fxj"]
-albedo_texture = ExtResource("4_m7pds")
-roughness_texture = ExtResource("5_grw4e")
-normal_enabled = true
+[ext_resource type="PackedScene" uid="uid://dg2giq6w1wr4w" path="res://scenes/player.tscn" id="4_8n5cc"]
 
 [node name="field" type="Node3D"]
 
@@ -73,37 +61,6 @@ light_indirect_energy = 16.0
 spot_range = 4096.0
 spot_attenuation = 0.5
 
-[node name="Player" type="Player" parent="."]
+[node name="Player" parent="." instance=ExtResource("4_8n5cc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.00046, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
-shape = SubResource("BoxShape3D_jkw8o")
-
-[node name="CSGMesh3D" type="CSGMesh3D" parent="Player"]
-mesh = SubResource("BoxMesh_e7vlo")
-material = SubResource("StandardMaterial3D_f3fxj")
-
-[node name="SpringArm3D" type="SpringArm3D" parent="Player"]
-transform = Transform3D(1, -2.82938e-10, 6.40624e-09, -2.1657e-11, 1, -3.58501e-10, 3.13967e-08, 3.34344e-10, 1, -0.922, 2.08165e-12, 25.833)
-
-[node name="Camera" type="Camera" parent="Player/SpringArm3D"]
-transform = Transform3D(0.999999, 5.59193e-09, -1.00583e-07, 2.07811e-12, 1, 3.72168e-14, 2.98023e-08, -2.43772e-11, 0.999999, -0.446071, 10.1034, 14.9363)
-fov = 92.8125
-
-[node name="Raycast" type="Raycast" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2.08165e-12, 5)
-target_position = Vector3(2.08165e-12, -15, 2.08165e-12)
-
-[node name="Raycast2" type="Raycast" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.09413, 0, 2.15335)
-target_position = Vector3(2.08165e-12, -15, 2.08165e-12)
-
-[node name="Raycast3" type="Raycast" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2.08165e-12, 5)
-target_position = Vector3(2.08165e-12, -15, 2.08165e-12)
-
-[node name="Raycast4" type="Raycast" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2.08165e-12, -5)
-target_position = Vector3(2.08165e-12, -15, 2.08165e-12)
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Player"]
+velocity = Vector3(0, 0, 0)
