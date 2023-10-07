@@ -79,7 +79,7 @@ void Player::_physics_process(double delta) {
     // gacky way to limit speed, fix later
     limit_speed(75);
     set_velocity(velocity);
-    set_rotation(rotation);
+    // set_rotation(rotation);
     apply_friction(800 * delta);
     move_and_slide();
 }
@@ -98,12 +98,12 @@ void Player::rotate_wasd() {
     if (Input::get_singleton()->is_action_pressed("A") && !hanging) {
         //position += Vector3(-1.0, 0.0, 0.0);
         // rotation.y += 0.05;
-        rotate_object_local(Vector3(0, 0, 1), 1);
+        rotate_object_local(Vector3(0, 1, 0), 0.1);
     }
     if (Input::get_singleton()->is_action_pressed("D") && !hanging) {
         //position += Vector3(1.0, 0.0, 0.0);
         // rotation.y += -0.05;
-        rotate_object_local(Vector3(0, 0, 1), -1);
+        rotate_object_local(Vector3(0, 1, 0), -0.1);
     }
 }
 
