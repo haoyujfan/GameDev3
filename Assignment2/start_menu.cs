@@ -5,7 +5,7 @@ public partial class start_menu : Node2D
 {
 	private void _on_start_pressed()
 	{
-		GetTree().ChangeSceneToFile("res://scenes/lose_screen.tscn");
+		GetTree().ChangeSceneToFile("res://scenes/main.tscn");
 	}
 	
 	private void _on_exit_pressed()
