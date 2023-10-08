@@ -226,3 +226,6 @@ void Player::play_empty_interact() {
 //     velocity += acceleration;
 // }
 
+bool Player::get_ad_rotate() {
+    return AD_rotate;
+}

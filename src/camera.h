@@ -19,6 +19,7 @@ public:
     Camera();
     ~Camera();
     void _input(const Ref<InputEvent> &event);
+
 };
 
 }
