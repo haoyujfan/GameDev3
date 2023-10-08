@@ -15,8 +15,10 @@ roughness_texture = ExtResource("2_xevgs")
 normal_enabled = true
 
 [node name="Player" type="Player"]
+p_angle = 0.08
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
 velocity = Vector3(0, -2573.33, 0)
+floor_max_angle = 0.08
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_e1h0s")

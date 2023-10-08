@@ -16,7 +16,7 @@ using namespace godot;
 
 void Player::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_slide_angle"), &Player::get_slide_angle);
-    ClassDB::bind_method(D_METHOD("set_slide_angle", "p_angle"), &Player::set_slide_angle);
+    ClassDB::bind_method(D_METHOD("set_slide_angle", "slide angle"), &Player::set_slide_angle);
     ClassDB::add_property("Player", PropertyInfo(Variant::FLOAT, "p_angle", PROPERTY_HINT_RANGE, 
         "0.05,1.0, 0.01"), "set_slide_angle", "get_slide_angle");
     //ClassDB::bind_method(D_METHOD("_physics_process", "delta"), &Player::_physics_process);
