@@ -47,20 +47,23 @@ void Player::_ready() {
 }
 
 void Player::_process(double delta) {
-    // bool entered = food1->is_entered() || food2->is_entered() || 
-    //     food3->is_entered() || food4->is_entered();
-    // if (entered && Input::get_singleton()->is_action_pressed("E")) {
-    //     if (!interact_player->is_playing()) {
-    //         UtilityFunctions::print("Interact");
-    //         play_interact();
-    //     }
-    // }
-    // if (!entered && Input::get_singleton()->is_action_pressed("E")) {
-    //     if (!empty_interact_player->is_playing()) {
-    //         UtilityFunctions::print("Empty Interact");
-    //         play_empty_interact();
-    //     }
-    // }
+    if(Engine::get_singleton()->is_editor_hint()) {
+        return;
+    }
+    bool entered = food1->is_entered() || food2->is_entered() || 
+        food3->is_entered() || food4->is_entered();
+    if (entered && Input::get_singleton()->is_action_pressed("E")) {
+        if (!interact_player->is_playing()) {
+            UtilityFunctions::print("Interact");
+            play_interact();
+        }
+    }
+    if (!entered && Input::get_singleton()->is_action_pressed("E")) {
+        if (!empty_interact_player->is_playing()) {
+            UtilityFunctions::print("Empty Interact");
+            play_empty_interact();
+        }
+    }
 }
 
 void Player::_physics_process(double delta) {
