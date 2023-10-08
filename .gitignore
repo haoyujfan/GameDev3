@@ -8,3 +8,5 @@
 *.dy
 *.framework
 *.dblite
+ball.cpp
+ball.h

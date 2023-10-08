@@ -16,7 +16,7 @@ normal_enabled = true
 
 [node name="Player" type="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
-velocity = Vector3(0, -16383.3, 0)
+velocity = Vector3(0, -28083.3, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_e1h0s")
@@ -48,4 +48,6 @@ target_position = Vector3(2.08165e-12, -15, 2.08165e-12)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2.08165e-12, -5)
 target_position = Vector3(2.08165e-12, -15, 2.08165e-12)
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="EmptyInteractPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="InteractPlayer" type="AudioStreamPlayer" parent="."]

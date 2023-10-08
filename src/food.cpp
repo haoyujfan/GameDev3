@@ -25,34 +25,15 @@ void Food::_bind_methods() {
 }
 
 // constructor
-Food::Food() {
-
-}
+Food::Food() {}
 
 // destructor
-Food::~Food() {
+Food::~Food() {}
 
-}
-
-// update the new position based on speed and trajectory
-void Food::_process(double delta) {
-    if (entered && Input::get_singleton()->is_action_pressed("E")) {
-        if (!interact_player->is_playing()) {
-            UtilityFunctions::print("Interact");
-            play_interact();
-        }
-    }
-    if (!entered && Input::get_singleton()->is_action_pressed("E")) {
-        if (!empty_interact_player->is_playing()) {
-            UtilityFunctions::print("Empty Interact");
-            play_empty_interact();
-        }
-    }
-}
+void Food::_process(double delta) {}
 
 // initialize the food when its children are ready 
 void Food::_ready() {
-    initialize_sound();
     entered = false;
     this->connect("body_entered", Callable(this, "food_body_entered"));
     this->connect("body_exited", Callable(this, "food_body_exited"));
@@ -66,46 +47,18 @@ void Food::set_value(const int p_value) {
    // value = p_value;
 }
 
-void Food::initialize_sound() {
-    String squish_path = "res://audio/squish.mp3";
-    Ref<FileAccess> squish_file = FileAccess::open(squish_path, FileAccess::ModeFlags::READ);
-    FileAccess *squish_ptr = Object::cast_to<FileAccess>(*squish_file);
-    interact = memnew(AudioStreamMP3);
-    interact->set_data(squish_ptr->get_file_as_bytes(squish_path));
-    interact_player = get_node<AudioStreamPlayer>("InteractPlayer");
-
-    String clonk_path = "res://audio/clonk.mp3";
-    Ref<FileAccess> clonk_file = FileAccess::open(clonk_path, FileAccess::ModeFlags::READ);
-    FileAccess *clonk_ptr = Object::cast_to<FileAccess>(*clonk_file);
-    empty_interact = memnew(AudioStreamMP3);
-    empty_interact->set_data(clonk_ptr->get_file_as_bytes(clonk_path));
-    empty_interact_player = get_node<AudioStreamPlayer>("EmptyInteractPlayer");
-}
-
-void Food::play_interact() {
-    if (interact_player && !Engine::get_singleton()->is_editor_hint()) {
-        interact_player->set_stream(interact);
-        interact_player->set_volume_db(-12.0);
-        interact_player->play(0.0);
-    }
-}
-
-void Food::play_empty_interact() {
-    if (empty_interact_player && !Engine::get_singleton()->is_editor_hint()) {
-        empty_interact_player->set_stream(empty_interact);
-        empty_interact_player->set_volume_db(-17.0);
-        empty_interact_player->play(0.0);
-    }
-}
-
 void Food::food_body_entered(const Node3D* node) {
     if (node->get_class() == "Player") {
         entered = true;
     }
 }
 
-void Food:: food_body_exited(const Node3D* node) {
+void Food::food_body_exited(const Node3D* node) {
     if (node->get_class() == "Player") {
         entered = false;
     }
+}
+
+bool Food::is_entered() {
+    return entered;
 }

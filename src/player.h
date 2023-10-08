@@ -8,6 +8,7 @@
 #include <godot_cpp/classes/audio_stream_mp3.hpp>
 #include <godot_cpp/classes/area3d.hpp>
 #include "raycast.h"
+#include "food.h"
 
 using namespace godot;
 
@@ -25,10 +26,15 @@ class Player : public CharacterBody3D {
         Raycast *ray3;
         Raycast *ray4;
 
+        Food *food1;
+        Food *food2;
+        Food *food3;
+        Food *food4;
+
+        AudioStreamPlayer *interact_player;
+        AudioStreamPlayer *empty_interact_player;
+        AudioStreamMP3 *interact;
         AudioStreamMP3 *empty_interact;
-        // AudioStreamMP3 *interact;
-        AudioStreamMP3 *hurt;
-        // AudioStreamPlayer *sound_effects;
 
         double gravity;
         double jump_velocity;
@@ -52,6 +58,10 @@ class Player : public CharacterBody3D {
         void limit_speed(double limit);
         void rotate_wasd();
         void strafe_wasd();
+
+        void initialize_sound();
+        void play_empty_interact();
+        void play_interact();
 
 };
     
