@@ -15,8 +15,7 @@
 using namespace godot;
 
 void Player::_bind_methods() {
-    //ClassDB::bind_method(D_METHOD("player_area_entered", "area"), &Player::player_area_entered);
-    //ClassDB::bind_method(D_METHOD("_physics_process", "delta"), &Player::_physics_process);
+    ClassDB::bind_method(D_METHOD("_physics_process", "delta"), &Player::_physics_process);
 }
 
 Player::Player() {
@@ -87,7 +86,7 @@ void Player::_physics_process(double delta) {
         velocity.y = jump_velocity;
         jumped = false;
     }
-    
+
     // ledge stop (shift)
     if (Input::get_singleton()->is_action_pressed("Shift")) {
         if (ray1->is_colliding() || ray2->is_colliding() ||
