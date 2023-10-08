@@ -15,7 +15,7 @@
 using namespace godot;
 
 void Player::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("_physics_process", "delta"), &Player::_physics_process);
+    //ClassDB::bind_method(D_METHOD("_physics_process", "delta"), &Player::_physics_process);
 }
 
 Player::Player() {

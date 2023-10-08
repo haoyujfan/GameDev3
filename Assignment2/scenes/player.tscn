@@ -16,7 +16,7 @@ normal_enabled = true
 
 [node name="Player" type="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
-velocity = Vector3(0, -28083.3, 0)
+velocity = Vector3(0, -2573.33, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_e1h0s")
