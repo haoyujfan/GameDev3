@@ -5,5 +5,3 @@
 [node name="main" type="Node3D"]
 
 [node name="field" parent="." instance=ExtResource("1_6fcu8")]
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

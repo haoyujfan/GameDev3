@@ -19,11 +19,13 @@ void Player::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_slide_angle", "slide angle"), &Player::set_slide_angle);
     ClassDB::add_property("Player", PropertyInfo(Variant::FLOAT, "p_angle", PROPERTY_HINT_RANGE, 
         "0.05,1.0, 0.01"), "set_slide_angle", "get_slide_angle");
+
+    ClassDB::bind_method(D_METHOD("get_points"), &Player::get_points);
     //ClassDB::bind_method(D_METHOD("_physics_process", "delta"), &Player::_physics_process);
 }
 
 Player::Player() {
-    //input = Input::get_singleton();
+    points = 0;
     gravity = 1400.0;
     jump_velocity = 300.0;
     speed = 75;
@@ -57,7 +59,7 @@ void Player::_process(double delta) {
         food3->is_entered() || food4->is_entered();
     if (entered && Input::get_singleton()->is_action_pressed("E")) {
         if (!interact_player->is_playing()) {
-            UtilityFunctions::print("Interact");
+            points++;
             play_interact();
         }
     }
@@ -143,10 +145,10 @@ void Player::rotate_wasd() {
             translate_object_local(transform.get_basis().get_column(2));
         }
         if (Input::get_singleton()->is_action_pressed("A")) {
-            rotate_object_local(Vector3(0, 1, 0), 0.1);
+            rotate_object_local(Vector3(0, 1, 0), 0.05);
         }
         if (Input::get_singleton()->is_action_pressed("D")) {
-            rotate_object_local(Vector3(0, 1, 0), -0.1);
+            rotate_object_local(Vector3(0, 1, 0), -0.05);
         }
     }
 }
@@ -233,10 +235,10 @@ float Player::get_slide_angle() {
     return get_floor_max_angle();
 }
 
-// void Player::apply_movement(double acceleration) {
-//     velocity += acceleration;
-// }
-
 bool Player::get_ad_rotate() {
     return AD_rotate;
+}
+
+int Player::get_points() {
+    return points;
 }

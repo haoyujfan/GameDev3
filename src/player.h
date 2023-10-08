@@ -25,17 +25,20 @@ class Player : public CharacterBody3D {
         Raycast *ray2;
         Raycast *ray3;
         Raycast *ray4;
+        int points;
 
         Food *food1;
         Food *food2;
         Food *food3;
         Food *food4;
 
+        // sounds
         AudioStreamPlayer *interact_player;
         AudioStreamPlayer *empty_interact_player;
         AudioStreamMP3 *interact;
         AudioStreamMP3 *empty_interact;
 
+        // movement
         double gravity;
         double jump_velocity;
         double speed;
@@ -66,6 +69,7 @@ class Player : public CharacterBody3D {
 
         void set_slide_angle(float p_angle);
         float get_slide_angle();
+        int get_points();
 
 };
     
