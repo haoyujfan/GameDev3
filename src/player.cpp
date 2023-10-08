@@ -67,6 +67,10 @@ void Player::_process(double delta) {
 }
 
 void Player::_physics_process(double delta) {
+    if(Engine::get_singleton()->is_editor_hint()) {
+        return;
+    }
+
     // sets rotate mode or strafe mode
     if (Input::get_singleton()->is_action_just_pressed("R")) {
         AD_rotate = !AD_rotate;
