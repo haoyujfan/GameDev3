@@ -62,7 +62,6 @@ spot_range = 4096.0
 spot_attenuation = 0.5
 
 [node name="Player" parent="." instance=ExtResource("4_8n5cc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.00046, 0)
 velocity = Vector3(0, 0, 0)
 
 [node name="BackgroundPlayer" type="AudioStreamPlayer" parent="."]

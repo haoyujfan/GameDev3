@@ -47,6 +47,9 @@ void Player::_ready() {
 }
 
 void Player::_process(double delta) {
+    if(Engine::get_singleton()->is_editor_hint()) {
+        return;
+    }
     bool entered = food1->is_entered() || food2->is_entered() || 
         food3->is_entered() || food4->is_entered();
     if (entered && Input::get_singleton()->is_action_pressed("E")) {
