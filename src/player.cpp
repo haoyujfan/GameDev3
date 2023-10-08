@@ -96,11 +96,28 @@ void Player::_physics_process(double delta) {
         velocity.y = jump_velocity;
         jumped = false;
     }
+    if (Input::get_singleton()->is_action_just_pressed("Jump") && hanging) {
+        gravity = 1400.0;
+        velocity.y = jump_velocity;
+        jumped = true;
+        hanging = false;
+    }
 
-    // ledge stop (shift)
+    // ledge stop and ledge hang 
     if (Input::get_singleton()->is_action_pressed("Shift")) {
+        if (ray1->is_colliding() && ray2->is_colliding() &&
+            ray3->is_colliding() && ray4->is_colliding()) {
+            // WASD movement
+            if (AD_rotate) {
+                rotate_wasd();
+            }
+            else {
+                strafe_wasd();
+            }
+        }
+    } else if (Input::get_singleton()->is_action_pressed("H")) {
         if (ray1->is_colliding() || ray2->is_colliding() ||
-        ray3->is_colliding() || ray4->is_colliding()) {
+            ray3->is_colliding() || ray4->is_colliding()) {
             // WASD movement
             if (AD_rotate) {
                 rotate_wasd();
@@ -110,6 +127,7 @@ void Player::_physics_process(double delta) {
             }
         } else {
             gravity = 0;
+            hanging = true;
         }
     } else {
         // WASD movement
