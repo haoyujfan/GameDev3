@@ -237,3 +237,6 @@ float Player::get_slide_angle() {
 //     velocity += acceleration;
 // }
 
+bool Player::get_ad_rotate() {
+    return AD_rotate;
+}
