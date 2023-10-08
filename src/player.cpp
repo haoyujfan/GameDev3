@@ -15,6 +15,10 @@
 using namespace godot;
 
 void Player::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("get_slide_angle"), &Player::get_slide_angle);
+    ClassDB::bind_method(D_METHOD("set_slide_angle", "p_angle"), &Player::set_slide_angle);
+    ClassDB::add_property("Player", PropertyInfo(Variant::FLOAT, "p_angle", PROPERTY_HINT_RANGE, 
+        "0.05,1.0, 0.01"), "set_slide_angle", "get_slide_angle");
     //ClassDB::bind_method(D_METHOD("_physics_process", "delta"), &Player::_physics_process);
 }
 
@@ -34,7 +38,6 @@ Player::~Player() {}
 void Player::_ready() {
     set_position(position);
     initialize_sound();
-    //this->connect("area_entered", Callable(this, "player_area_entered"));
     ray1 = get_node<Raycast>("Raycast");
     ray2 = get_node<Raycast>("Raycast2");
     ray3 = get_node<Raycast>("Raycast3");
@@ -220,6 +223,14 @@ void Player::play_empty_interact() {
         empty_interact_player->set_volume_db(-17.0);
         empty_interact_player->play(0.0);
     }
+}
+
+void Player::set_slide_angle(float p_angle) {
+    set_floor_max_angle(p_angle);
+}
+
+float Player::get_slide_angle() {
+    return get_floor_max_angle();
 }
 
 // void Player::apply_movement(double acceleration) {

@@ -63,6 +63,9 @@ class Player : public CharacterBody3D {
         void play_empty_interact();
         void play_interact();
 
+        void set_slide_angle(float p_angle);
+        float get_slide_angle();
+
 };
     
 
