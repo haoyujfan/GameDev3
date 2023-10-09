@@ -35,6 +35,10 @@ void Player::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_gravity", "gravity"), &Player::set_gravity);
     ClassDB::add_property("Player", PropertyInfo(Variant::FLOAT, "gravity", PROPERTY_HINT_RANGE, 
         "500, 2000, 100"), "set_gravity", "get_gravity");
+    ClassDB::bind_method(D_METHOD("get_air_resistance"), &Player::get_air_resistance);
+    ClassDB::bind_method(D_METHOD("set_air_resistance", "air_resistance"), &Player::set_air_resistance);
+    ClassDB::add_property("Player", PropertyInfo(Variant::FLOAT, "air resistance", PROPERTY_HINT_RANGE, 
+        "0, 2, 0.1"), "set_air_resistance", "get_air_resistance");
 
     ClassDB::bind_method(D_METHOD("get_points"), &Player::get_points);
     //ClassDB::bind_method(D_METHOD("_physics_process", "delta"), &Player::_physics_process);
@@ -50,6 +54,7 @@ Player::Player() {
     glide_gravity = 800.0;
     jump_velocity = 300.0;
     speed = 2;
+    air_resistance = 0;
     velocity = Vector3(0.0, 0.0, 0.0);
     position = Vector3(0.0, 10.0, 0.0);
     hanging = false;
@@ -150,7 +155,7 @@ void Player::_physics_process(double delta) {
     if (!this->is_on_floor()) {
         velocity.y -= gravity * delta;
         velocity += momentum;
-        speed = 1;
+        speed = 2 - air_resistance;
         //position.y -= 1;
     }
     if (Input::get_singleton()->is_action_just_pressed("Jump") && this->is_on_floor()) {
@@ -361,6 +366,14 @@ void Player::set_glide_gravity(float p_glide_gravity) {
 
 float Player::get_glide_gravity() {
     return glide_gravity;
+}
+
+void Player::set_air_resistance(float p_air_resistance) {
+    air_resistance = p_air_resistance;
+}
+
+float Player::get_air_resistance() {
+    return air_resistance;
 }
 
 bool Player::get_ad_rotate() {

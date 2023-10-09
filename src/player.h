@@ -54,6 +54,7 @@ class Player : public CharacterBody3D {
         double glide_gravity;
         double jump_velocity;
         double speed;
+        double air_resistance;
         bool jumped;
         bool hanging;
         bool AD_rotate;
@@ -87,6 +88,8 @@ class Player : public CharacterBody3D {
         float get_jump_force();
         void set_glide_gravity(float p_glide_gravity);
         float get_glide_gravity();
+        void set_air_resistance(float p_air_resistance);
+        float get_air_resistance();
         int get_points();
         bool get_sound_toggle();
         void set_points(int p_points);
