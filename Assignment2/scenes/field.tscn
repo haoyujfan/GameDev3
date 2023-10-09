@@ -64,7 +64,7 @@ spot_range = 4096.0
 spot_attenuation = 0.5
 
 [node name="Player" parent="." instance=ExtResource("4_8n5cc")]
-p_gravity = 500.0
+"slide angle" = 0.08
 velocity = Vector3(0, 0, 0)
 
 [node name="BackgroundPlayer" type="AudioStreamPlayer" parent="."]
