@@ -337,11 +337,10 @@ int Player::get_points() {
     return points;
 }
 
-<<<<<<< HEAD
 bool Player::get_sound_toggle() {
     return mute_sound_effects;
-=======
+}
+
 void Player::set_points(int p_points) {
     points = p_points;
->>>>>>> 8667acef62e4e0aa0edc9a781710fc7f0ea9e4ac
 }

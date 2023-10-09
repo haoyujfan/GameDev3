@@ -84,12 +84,9 @@ class Player : public CharacterBody3D {
         void set_glide_gravity(float p_glide_gravity);
         float get_glide_gravity();
         int get_points();
-<<<<<<< HEAD
         bool get_sound_toggle();
-=======
         void set_points(int p_points);
 
->>>>>>> 8667acef62e4e0aa0edc9a781710fc7f0ea9e4ac
 };
     
 
