@@ -21,6 +21,7 @@ class Player : public CharacterBody3D {
         /* data */
         Vector3 position;
         Vector3 velocity;
+        Vector3 momentum;
         Input *input;
         Transform3D transform;
         Raycast *ray1;
@@ -67,8 +68,8 @@ class Player : public CharacterBody3D {
         void apply_friction(double p_friction);
         void apply_movement(double acceleration);
         void limit_speed(double limit);
-        void rotate_wasd();
-        void strafe_wasd();
+        Vector3 rotate_wasd();
+        Vector3 strafe_wasd();
 
         void initialize_sound();
         void play_empty_interact();

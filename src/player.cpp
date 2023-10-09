@@ -47,7 +47,7 @@ Player::Player() {
     gravity = 1400.0;
     glide_gravity = 800.0;
     jump_velocity = 300.0;
-    speed = 75;
+    speed = 2;
     velocity = Vector3(0.0, 0.0, 0.0);
     position = Vector3(0.0, 10.0, 0.0);
     hanging = false;
@@ -58,6 +58,7 @@ Player::Player() {
 Player::~Player() {}
 
 void Player::_ready() {
+    momentum = Vector3(0.0, 0.0, 0.0);
     set_position(position);
     initialize_sound();
     ray1 = get_node<Raycast>("Raycast");
@@ -71,7 +72,6 @@ void Player::_ready() {
     food4 = get_node<Food>("../Food4");
 
     camera = get_node<Camera>("Node3D/Camera");
-
     tree = get_tree();
 }
 
@@ -115,6 +115,7 @@ void Player::_process(double delta) {
 }
 
 void Player::_physics_process(double delta) {
+    
     if(Engine::get_singleton()->is_editor_hint()) {
         return;
     }
@@ -125,12 +126,16 @@ void Player::_physics_process(double delta) {
     }
     // reset gravity 
     if (this->is_on_floor()) {
+        speed = 2;
         gravity = 1400.0;
+        momentum = Vector3(0.0, 0.0, 0.0);
     }
 
     // gravity and jumping
     if (!this->is_on_floor()) {
         velocity.y -= gravity * delta;
+        velocity += momentum;
+        speed = 1;
         //position.y -= 1;
     }
     if (Input::get_singleton()->is_action_just_pressed("Jump") && this->is_on_floor()) {
@@ -154,10 +159,10 @@ void Player::_physics_process(double delta) {
             ray3->is_colliding() && ray4->is_colliding()) {
             // WASD movement
             if (AD_rotate) {
-                rotate_wasd();
+                momentum += rotate_wasd();
             }
             else {
-                strafe_wasd();
+                momentum += strafe_wasd();
             }
         }
     } else if (Input::get_singleton()->is_action_pressed("H")) {
@@ -165,10 +170,10 @@ void Player::_physics_process(double delta) {
             ray3->is_colliding() || ray4->is_colliding()) {
             // WASD movement
             if (AD_rotate) {
-                rotate_wasd();
+                momentum += rotate_wasd();
             }
             else {
-                strafe_wasd();
+                momentum += strafe_wasd();
             }
         } else {
             gravity = 0;
@@ -196,20 +201,26 @@ void Player::_physics_process(double delta) {
     if (points == 10) {
         tree->change_scene_to_file("res://scenes/win_screen.tscn");
     }
+
     // gacky way to limit speed, fix later
     limit_speed(75);
     set_velocity(velocity);
-    apply_friction(800 * delta);
+    // if (this->is_on_floor()) {
+    //     apply_friction(800 * delta);
+    // }
     move_and_slide();
 }
 
-void Player::rotate_wasd() {
+Vector3 Player::rotate_wasd() {
+    Vector3 result = Vector3(0.0, 0.0, 0.0);
     if (!hanging) {
         if (Input::get_singleton()->is_action_pressed("W")) {
-            translate_object_local(-transform.get_basis().get_column(2));
+            translate_object_local(-transform.get_basis().get_column(2) * speed);
+            result += -transform.get_basis().get_column(2) * speed;
         }
         if (Input::get_singleton()->is_action_pressed("S")) {
-            translate_object_local(transform.get_basis().get_column(2));
+            translate_object_local(transform.get_basis().get_column(2) * speed);
+            result += transform.get_basis().get_column(2) * speed;
         }
         if (Input::get_singleton()->is_action_pressed("A")) {
             camera->set_as_top_level(true);
@@ -222,23 +233,30 @@ void Player::rotate_wasd() {
             camera->set_as_top_level(false);
         }
     }
+    return result;
 }
 
-void Player::strafe_wasd() {
+Vector3 Player::strafe_wasd() {
+    Vector3 result = Vector3(0.0, 0.0, 0.0);
     if (!hanging) {
         if (Input::get_singleton()->is_action_pressed("W")) {
-            translate_object_local(-transform.get_basis().get_column(2));
+            translate_object_local(-transform.get_basis().get_column(2) * speed);
+            result += -transform.get_basis().get_column(2) * speed;
         }
         if (Input::get_singleton()->is_action_pressed("S")) {
-            translate_object_local(transform.get_basis().get_column(2));
+            translate_object_local(transform.get_basis().get_column(2) * speed);
+            result += transform.get_basis().get_column(2) * speed;
         }
         if (Input::get_singleton()->is_action_pressed("A")) {
-            translate_object_local(-transform.get_basis().get_column(0));
+            translate_object_local(-transform.get_basis().get_column(0) * speed);
+            result += -transform.get_basis().get_column(0) * speed;
         }
         if (Input::get_singleton()->is_action_pressed("D")) {
-            translate_object_local(transform.get_basis().get_column(0));
+            translate_object_local(transform.get_basis().get_column(0) * speed);
+            result += transform.get_basis().get_column(0) * speed;
         }
     }
+    return result;
 
 }
 
