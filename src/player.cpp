@@ -117,9 +117,12 @@ void Player::_process(double delta) {
     }
     toggles();
 
+    // dithering for camera collisions
     if (camera_cast->is_colliding()) {
-        colliding = Object::cast_to<StaticBody3D>(camera_cast->get_collider());
-        colliding->set_visible(false);
+        if (camera_cast->get_collider()->get_class() == "Ground") {
+            colliding = Object::cast_to<StaticBody3D>(camera_cast->get_collider());
+            colliding->set_visible(false);
+        }
     }
     if (!camera_cast->is_colliding() && colliding) {
         colliding->set_visible(true);
