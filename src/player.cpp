@@ -35,6 +35,8 @@ void Player::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("get_points"), &Player::get_points);
     //ClassDB::bind_method(D_METHOD("_physics_process", "delta"), &Player::_physics_process);
+
+    ADD_SIGNAL(MethodInfo("interact_orange"));
 }
 
 Player::Player() {
@@ -77,15 +79,19 @@ void Player::_process(double delta) {
             play_interact();
             if (food1->is_entered()) {
                 food1->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
+                emit_signal("interact_orange");
             } 
             if (food2->is_entered()) {
                 food2->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
+                emit_signal("interact_orange");
             } 
             if (food3->is_entered()) {
                 food3->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
+                emit_signal("interact_orange");
             } 
             if (food4->is_entered()) {
                 food4->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
+                emit_signal("interact_orange");
             } 
         }
     }

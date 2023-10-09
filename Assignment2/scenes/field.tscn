@@ -66,15 +66,20 @@ spot_range = 4096.0
 spot_attenuation = 0.5
 
 [node name="Player" parent="." instance=ExtResource("4_8n5cc")]
-"slide angle" = 0.08
 velocity = Vector3(0, 0, 0)
 
 [node name="BackgroundPlayer" type="AudioStreamPlayer" parent="."]
 
 [node name="Points" type="RichTextLabel" parent="."]
-offset_left = 955.0
+offset_left = 883.0
 offset_top = 600.0
-offset_right = 1112.0
+offset_right = 1142.0
 offset_bottom = 651.0
 theme_override_font_sizes/normal_font_size = 31
 text = "Points: "
+
+[connection signal="interact_cactus" from="Cactus" to="." method="_on_cactus_interact_cactus"]
+[connection signal="interact_cactus" from="Cactus2" to="." method="_on_cactus_2_interact_cactus"]
+[connection signal="interact_cactus" from="Cactus3" to="." method="_on_cactus_3_interact_cactus"]
+[connection signal="interact_cactus" from="Cactus4" to="." method="_on_cactus_4_interact_cactus"]
+[connection signal="interact_orange" from="Player" to="." method="_on_player_interact_orange"]
