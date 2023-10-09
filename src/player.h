@@ -7,6 +7,7 @@
 #include <godot_cpp/classes/audio_stream_player.hpp>
 #include <godot_cpp/classes/audio_stream_mp3.hpp>
 #include <godot_cpp/classes/area3d.hpp>
+#include <godot_cpp/classes/random_number_generator.hpp>
 #include "raycast.h"
 #include "food.h"
 
@@ -31,6 +32,7 @@ class Player : public CharacterBody3D {
         Food *food2;
         Food *food3;
         Food *food4;
+        RandomNumberGenerator rand;
 
         // sounds
         AudioStreamPlayer *interact_player;

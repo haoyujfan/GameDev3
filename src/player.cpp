@@ -76,16 +76,16 @@ void Player::_process(double delta) {
             points++;
             play_interact();
             if (food1->is_entered()) {
-                food1->queue_free();
+                food1->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
             } 
             if (food2->is_entered()) {
-                food2->queue_free();
+                food2->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
             } 
             if (food3->is_entered()) {
-                food3->queue_free();
+                food3->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
             } 
             if (food4->is_entered()) {
-                food4->queue_free();
+                food4->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
             } 
         }
     }
