@@ -12,7 +12,7 @@ script = ExtResource("1_e1b4n")
 [node name="Ground" parent="." instance=ExtResource("1_lyp0q")]
 
 [node name="Ground2" parent="." instance=ExtResource("1_lyp0q")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80, 5, 2.08165e-12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107, 5, 2.08165e-12)
 
 [node name="Ground3" parent="." instance=ExtResource("1_lyp0q")]
 transform = Transform3D(0.96363, 0.267238, 3.48787e-16, -0.267238, 0.96363, -3.48787e-16, -4.29311e-16, 2.42892e-16, 1, -50, 2.08165e-12, 2.08165e-12)
