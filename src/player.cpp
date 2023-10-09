@@ -336,3 +336,7 @@ bool Player::get_ad_rotate() {
 int Player::get_points() {
     return points;
 }
+
+void Player::set_points(int p_points) {
+    points = p_points;
+}

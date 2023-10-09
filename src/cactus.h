@@ -4,6 +4,7 @@
 #include <godot_cpp/classes/area3d.hpp>
 #include <godot_cpp/classes/audio_stream_player.hpp>
 #include <godot_cpp/classes/audio_stream_mp3.hpp>
+#include "player.h"
 
 namespace godot {
 
@@ -16,6 +17,7 @@ private:
     bool pickup;
     AudioStreamPlayer *sound_effects;
     AudioStreamMP3 *hurt;
+    Player *player;
 
 protected:
     static void _bind_methods();
