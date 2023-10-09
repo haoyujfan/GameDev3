@@ -47,6 +47,7 @@ Player::Player() {
     position = Vector3(0.0, 10.0, 0.0);
     hanging = false;
     AD_rotate = true;
+    mute_sound_effects = false;
 }
 
 Player::~Player() {}
@@ -63,6 +64,8 @@ void Player::_ready() {
     food2 = get_node<Food>("../Food2");
     food3 = get_node<Food>("../Food3");
     food4 = get_node<Food>("../Food4");
+
+    tree = get_tree();
 }
 
 void Player::_process(double delta) {
@@ -74,7 +77,9 @@ void Player::_process(double delta) {
     if (entered && Input::get_singleton()->is_action_pressed("E")) {
         if (!interact_player->is_playing()) {
             points++;
-            play_interact();
+            if (!mute_sound_effects) {
+                play_interact();
+            }
             if (food1->is_entered()) {
                 food1->queue_free();
             } 
@@ -90,9 +95,12 @@ void Player::_process(double delta) {
         }
     }
     if (!entered && Input::get_singleton()->is_action_pressed("E")) {
-        if (!empty_interact_player->is_playing()) {
+        if (!empty_interact_player->is_playing() && !mute_sound_effects) {
             play_empty_interact();
         }
+    }
+    if (Input::get_singleton()->is_action_just_pressed("Sound Effect")) {
+        mute_sound_effects = !mute_sound_effects;
     }
 }
 
@@ -172,9 +180,11 @@ void Player::_physics_process(double delta) {
     if (Input::get_singleton()->is_action_just_released("G")) {
         gravity = 1400.0;
     }
-    if (get_position().y < -100.0) {
-        SceneTree *tree = get_tree();
+    if (get_position().y < -100.0 || points < 0) {
         tree->change_scene_to_file("res://scenes/lose_screen.tscn");
+    }
+    if (points == 10) {
+        tree->change_scene_to_file("res://scenes/win_screen.tscn");
     }
     // gacky way to limit speed, fix later
     limit_speed(75);

@@ -25,6 +25,7 @@ class Player : public CharacterBody3D {
         Raycast *ray2;
         Raycast *ray3;
         Raycast *ray4;
+        SceneTree *tree;
         int points;
 
         Food *food1;
@@ -37,6 +38,7 @@ class Player : public CharacterBody3D {
         AudioStreamPlayer *empty_interact_player;
         AudioStreamMP3 *interact;
         AudioStreamMP3 *empty_interact;
+        bool mute_sound_effects;
 
         // movement
         double gravity;

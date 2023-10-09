@@ -18,6 +18,8 @@ private:
     AudioStreamMP3 *empty_interact;
     AudioStreamPlayer *background_player;
     AudioStreamPlayer *empty_interact_player;
+    bool mute_music;
+    float volume;
 
 protected:
     static void _bind_methods();
@@ -31,7 +33,8 @@ public:
     void _ready() override;
     void initialize_sound();
     void play_background();
-    void play_empty_interact();
+    void _process(double delta) override;
+
 
 };
 

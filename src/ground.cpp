@@ -4,6 +4,7 @@
 #include <godot_cpp/classes/audio_stream_player.hpp>
 #include <godot_cpp/classes/audio_stream_mp3.hpp>
 #include <godot_cpp/classes/file_access.hpp>
+#include <godot_cpp/classes/input.hpp>
 #include <godot_cpp/classes/engine.hpp>
 
 using namespace godot;
@@ -32,6 +33,25 @@ void Ground::_ready() {
 
     initialize_sound();
     play_background();
+    volume = -15;
+    mute_music = false;
+}
+
+void Ground::_process(double delta) {
+    if(Engine::get_singleton()->is_editor_hint()) {
+        return;
+    }
+    if (background_player && !background_player->is_playing()) {
+        play_background();
+    }
+    if (Input::get_singleton()->is_action_just_pressed("Volume Up")) {
+        volume += 1;
+        background_player->set_volume_db(volume);
+    }
+    if (Input::get_singleton()->is_action_just_pressed("Volume Down")) {
+        volume -= 1;
+        background_player->set_volume_db(volume);
+    }
 }
 
 void Ground::initialize_sound() {
@@ -56,15 +76,7 @@ Vector3 Ground::get_normal() const {
 void Ground::play_background() {
     if (background_player && !Engine::get_singleton()->is_editor_hint()) {
         background_player->set_stream(background);
-        background_player->set_volume_db(-17.0);
+        background_player->set_volume_db(-15);
         background_player->play(0.0);
     }
 }
-
-// void Ground::play_empty_interact() {
-//     if (empty_interact_player && !Engine::get_singleton()->is_editor_hint()) {
-//         empty_interact_player->set_stream(background);
-//         empty_interact_player->set_volume_db(-17.0);
-//         empty_interact_player->play(0.0);
-//     }
-// }
