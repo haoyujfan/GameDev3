@@ -45,7 +45,11 @@ void Cactus::_process(double delta) {
 void Cactus::_ready() {
     initialize_sound();
     this->connect("body_entered", Callable(this, "cactus_body_entered"));
+<<<<<<< HEAD
     mute_sound_effects = false;
+=======
+    player = get_node<Player>("../Player");
+>>>>>>> 8667acef62e4e0aa0edc9a781710fc7f0ea9e4ac
 }
 
 void Cactus::initialize_sound() {
@@ -71,6 +75,8 @@ void Cactus::cactus_body_entered(const Node3D* node) {
     if (node->get_class() == "Player") {
         play_interact();
         emit_signal("interact_cactus");
+        int points = player->get_points();
+        player->set_points(points - 1);
     }
 }
 
