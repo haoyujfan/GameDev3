@@ -66,7 +66,8 @@ void Player::_ready() {
     ray2 = get_node<Raycast>("Raycast2");
     ray3 = get_node<Raycast>("Raycast3");
     ray4 = get_node<Raycast>("Raycast4");
-    camera_cast = get_node<Raycast>("Node3D/Camera/Raycast");
+    camera_cast1 = get_node<Raycast>("Node3D/Camera/Raycast");
+    camera_cast2 = get_node<Raycast>("Node3D/Camera/Raycast2");
     colliding = NULL;
 
     food1 = get_node<Food>("../Food");
@@ -118,13 +119,11 @@ void Player::_process(double delta) {
     toggles();
 
     // dithering for camera collisions
-    if (camera_cast->is_colliding()) {
-        if (camera_cast->get_collider()->get_class() == "Ground") {
-            colliding = Object::cast_to<StaticBody3D>(camera_cast->get_collider());
-            colliding->set_visible(false);
-        }
+    if (camera_cast1->is_colliding() && camera_cast2->is_colliding()) {
+        colliding = Object::cast_to<Node3D>(camera_cast1->get_collider());
+        colliding->set_visible(false);
     }
-    if (!camera_cast->is_colliding() && colliding) {
+    if (!camera_cast1->is_colliding() && !camera_cast2->is_colliding() && colliding) {
         colliding->set_visible(true);
         colliding = NULL;
     }
