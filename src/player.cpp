@@ -27,6 +27,10 @@ void Player::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_glide_gravity", "glide gravity"), &Player::set_glide_gravity);
     ClassDB::add_property("Player", PropertyInfo(Variant::FLOAT, "glide gravity", PROPERTY_HINT_RANGE, 
         "500, 1000, 50"), "set_glide_gravity", "get_glide_gravity");
+    ClassDB::bind_method(D_METHOD("get_gravity"), &Player::get_gravity);
+    ClassDB::bind_method(D_METHOD("set_gravity", "gravity"), &Player::set_gravity);
+    ClassDB::add_property("Player", PropertyInfo(Variant::FLOAT, "gravity", PROPERTY_HINT_RANGE, 
+        "500, 2000, 100"), "set_gravity", "get_gravity");
 
     ClassDB::bind_method(D_METHOD("get_points"), &Player::get_points);
     //ClassDB::bind_method(D_METHOD("_physics_process", "delta"), &Player::_physics_process);
@@ -268,6 +272,14 @@ void Player::play_empty_interact() {
     }
 }
 
+void Player::set_gravity(float p_gravity) {
+    gravity = p_gravity;
+}
+
+float Player::get_gravity() {
+    return gravity;
+}
+
 void Player::set_slide_angle(float p_angle) {
     set_floor_max_angle(p_angle);
 }
@@ -284,8 +296,8 @@ float Player::get_jump_force() {
     return jump_velocity;
 }
 
-void Player::set_glide_gravity(float p_gravity) {
-    glide_gravity = p_gravity;
+void Player::set_glide_gravity(float p_glide_gravity) {
+    glide_gravity = p_glide_gravity;
 }
 
 float Player::get_glide_gravity() {
