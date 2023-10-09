@@ -24,8 +24,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.32427, 1.98308, -19.7131)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.347945, 2.50586, 15.3763)
 
 [node name="Food3" parent="." instance=ExtResource("2_71hdr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 22, 30)
 
 [node name="Food4" parent="." instance=ExtResource("2_71hdr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 11, 35)
 
 [node name="Cactus" parent="." instance=ExtResource("3_abjbr")]
 value = 616
