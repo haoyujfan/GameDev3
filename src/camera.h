@@ -11,6 +11,7 @@ class Camera : public Camera3D {
 
 private:
     Vector3 rotation;
+    float speed;
 
 protected:
     static void _bind_methods();
@@ -19,6 +20,8 @@ public:
     Camera();
     ~Camera();
     void _input(const Ref<InputEvent> &event);
+    void set_speed(float s);
+    float get_speed();
 
 };
 

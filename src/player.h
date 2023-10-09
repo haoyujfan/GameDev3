@@ -40,6 +40,7 @@ class Player : public CharacterBody3D {
 
         // movement
         double gravity;
+        double glide_gravity;
         double jump_velocity;
         double speed;
         bool jumped;
@@ -67,8 +68,14 @@ class Player : public CharacterBody3D {
         void play_interact();
         bool get_ad_rotate();
 
+        void set_gravity(float p_gravity);
+        float get_gravity();
         void set_slide_angle(float p_angle);
         float get_slide_angle();
+        void set_jump_force(float p_force);
+        float get_jump_force();
+        void set_glide_gravity(float p_glide_gravity);
+        float get_glide_gravity();
         int get_points();
 
 };
