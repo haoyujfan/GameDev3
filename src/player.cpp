@@ -336,3 +336,7 @@ bool Player::get_ad_rotate() {
 int Player::get_points() {
     return points;
 }
+
+bool Player::get_sound_toggle() {
+    return mute_sound_effects;
+}

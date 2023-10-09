@@ -16,6 +16,7 @@ private:
     bool pickup;
     AudioStreamPlayer *sound_effects;
     AudioStreamMP3 *hurt;
+    bool mute_sound_effects;
 
 protected:
     static void _bind_methods();

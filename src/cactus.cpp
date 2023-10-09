@@ -8,6 +8,7 @@
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/engine.hpp>
 #include <stdlib.h>
+#include <godot_cpp/classes/input.hpp>
 
 using namespace godot;
 
@@ -35,12 +36,16 @@ Cactus::~Cactus() {
 
 // update the new position based on speed and trajectory
 void Cactus::_process(double delta) {
+    if (Input::get_singleton()->is_action_just_pressed("Sound Effect")) {
+        mute_sound_effects = !mute_sound_effects;
+    }
 }
 
 // initialize the cactus when its children are ready 
 void Cactus::_ready() {
     initialize_sound();
     this->connect("body_entered", Callable(this, "cactus_body_entered"));
+    mute_sound_effects = false;
 }
 
 void Cactus::initialize_sound() {
@@ -54,7 +59,7 @@ void Cactus::initialize_sound() {
 }
 
 void Cactus::play_interact() {
-    if (sound_effects && !Engine::get_singleton()->is_editor_hint()) {
+    if (sound_effects && !Engine::get_singleton()->is_editor_hint() && !mute_sound_effects) {
         sound_effects->set_stream(hurt);
         sound_effects->set_volume_db(-12.0);
         sound_effects->play(0.0);
