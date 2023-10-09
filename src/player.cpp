@@ -19,6 +19,10 @@ void Player::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_slide_angle", "slide angle"), &Player::set_slide_angle);
     ClassDB::add_property("Player", PropertyInfo(Variant::FLOAT, "p_angle", PROPERTY_HINT_RANGE, 
         "0.05,1.0, 0.01"), "set_slide_angle", "get_slide_angle");
+    ClassDB::bind_method(D_METHOD("get_jump_force"), &Player::get_jump_force);
+    ClassDB::bind_method(D_METHOD("set_jump_force", "jump force"), &Player::set_jump_force);
+    ClassDB::add_property("Player", PropertyInfo(Variant::FLOAT, "p_force", PROPERTY_HINT_RANGE, 
+        "100, 500, 50"), "set_jump_force", "get_jump_force");
 
     ClassDB::bind_method(D_METHOD("get_points"), &Player::get_points);
     //ClassDB::bind_method(D_METHOD("_physics_process", "delta"), &Player::_physics_process);
@@ -265,6 +269,14 @@ void Player::set_slide_angle(float p_angle) {
 
 float Player::get_slide_angle() {
     return get_floor_max_angle();
+}
+
+void Player::set_jump_force(float p_force) {
+    jump_velocity = p_force;
+}
+
+float Player::get_jump_force() {
+    return jump_velocity;
 }
 
 bool Player::get_ad_rotate() {

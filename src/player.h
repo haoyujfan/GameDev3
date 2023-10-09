@@ -69,6 +69,8 @@ class Player : public CharacterBody3D {
 
         void set_slide_angle(float p_angle);
         float get_slide_angle();
+        void set_jump_force(float p_force);
+        float get_jump_force();
         int get_points();
 
 };
