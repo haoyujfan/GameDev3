@@ -8,6 +8,7 @@
 #include <godot_cpp/classes/audio_stream_player.hpp>
 #include <godot_cpp/classes/audio_stream_mp3.hpp>
 #include <godot_cpp/variant/transform3d.hpp>
+#include <godot_cpp/classes/scene_tree.hpp>
 
 
 #include <cstdlib>
@@ -73,13 +74,10 @@ void Player::_process(double delta) {
             if (food4->is_entered()) {
                 food4->queue_free();
             } 
-
-
         }
     }
     if (!entered && Input::get_singleton()->is_action_pressed("E")) {
         if (!empty_interact_player->is_playing()) {
-            UtilityFunctions::print("Empty Interact");
             play_empty_interact();
         }
     }
@@ -160,6 +158,10 @@ void Player::_physics_process(double delta) {
     }
     if (Input::get_singleton()->is_action_just_released("G")) {
         gravity = 1400.0;
+    }
+    if (get_position().y < -100.0) {
+        SceneTree *tree = get_tree();
+        tree->change_scene_to_file("res://scenes/lose_screen.tscn");
     }
     // gacky way to limit speed, fix later
     limit_speed(75);
