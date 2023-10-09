@@ -32,19 +32,4 @@ public partial class field : Node3D
 	{
 		points_value--;
 	}
-	
-	private void _on_cactus_2_interact_cactus()
-	{
-		points_value--;
-	}
-
-	private void _on_cactus_3_interact_cactus()
-	{
-		points_value--;
-	}
-
-	private void _on_cactus_4_interact_cactus()
-	{
-		points_value--;
-	}
 }

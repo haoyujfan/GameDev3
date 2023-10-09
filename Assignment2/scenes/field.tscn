@@ -79,7 +79,7 @@ theme_override_font_sizes/normal_font_size = 31
 text = "Points: "
 
 [connection signal="interact_cactus" from="Cactus" to="." method="_on_cactus_interact_cactus"]
-[connection signal="interact_cactus" from="Cactus2" to="." method="_on_cactus_2_interact_cactus"]
-[connection signal="interact_cactus" from="Cactus3" to="." method="_on_cactus_3_interact_cactus"]
-[connection signal="interact_cactus" from="Cactus4" to="." method="_on_cactus_4_interact_cactus"]
+[connection signal="interact_cactus" from="Cactus2" to="." method="_on_cactus_interact_cactus"]
+[connection signal="interact_cactus" from="Cactus3" to="." method="_on_cactus_interact_cactus"]
+[connection signal="interact_cactus" from="Cactus4" to="." method="_on_cactus_interact_cactus"]
 [connection signal="interact_orange" from="Player" to="." method="_on_player_interact_orange"]
