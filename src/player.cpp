@@ -17,8 +17,20 @@ using namespace godot;
 void Player::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_slide_angle"), &Player::get_slide_angle);
     ClassDB::bind_method(D_METHOD("set_slide_angle", "slide angle"), &Player::set_slide_angle);
-    ClassDB::add_property("Player", PropertyInfo(Variant::FLOAT, "p_angle", PROPERTY_HINT_RANGE, 
+    ClassDB::add_property("Player", PropertyInfo(Variant::FLOAT, "slide angle", PROPERTY_HINT_RANGE, 
         "0.05,1.0, 0.01"), "set_slide_angle", "get_slide_angle");
+    ClassDB::bind_method(D_METHOD("get_jump_force"), &Player::get_jump_force);
+    ClassDB::bind_method(D_METHOD("set_jump_force", "jump force"), &Player::set_jump_force);
+    ClassDB::add_property("Player", PropertyInfo(Variant::FLOAT, "jump force", PROPERTY_HINT_RANGE, 
+        "100, 500, 50"), "set_jump_force", "get_jump_force");
+    ClassDB::bind_method(D_METHOD("get_glide_gravity"), &Player::get_glide_gravity);
+    ClassDB::bind_method(D_METHOD("set_glide_gravity", "glide gravity"), &Player::set_glide_gravity);
+    ClassDB::add_property("Player", PropertyInfo(Variant::FLOAT, "glide gravity", PROPERTY_HINT_RANGE, 
+        "500, 1000, 50"), "set_glide_gravity", "get_glide_gravity");
+    ClassDB::bind_method(D_METHOD("get_gravity"), &Player::get_gravity);
+    ClassDB::bind_method(D_METHOD("set_gravity", "gravity"), &Player::set_gravity);
+    ClassDB::add_property("Player", PropertyInfo(Variant::FLOAT, "gravity", PROPERTY_HINT_RANGE, 
+        "500, 2000, 100"), "set_gravity", "get_gravity");
 
     ClassDB::bind_method(D_METHOD("get_points"), &Player::get_points);
     //ClassDB::bind_method(D_METHOD("_physics_process", "delta"), &Player::_physics_process);
@@ -27,6 +39,7 @@ void Player::_bind_methods() {
 Player::Player() {
     points = 0;
     gravity = 1400.0;
+    glide_gravity = 800.0;
     jump_velocity = 300.0;
     speed = 75;
     velocity = Vector3(0.0, 0.0, 0.0);
@@ -156,7 +169,7 @@ void Player::_physics_process(double delta) {
     }
     // gliding (g)
     if (Input::get_singleton()->is_action_pressed("G")) {
-        gravity = 800.0;
+        gravity = glide_gravity;
     }
     if (Input::get_singleton()->is_action_just_released("G")) {
         gravity = 1400.0;
@@ -259,12 +272,36 @@ void Player::play_empty_interact() {
     }
 }
 
+void Player::set_gravity(float p_gravity) {
+    gravity = p_gravity;
+}
+
+float Player::get_gravity() {
+    return gravity;
+}
+
 void Player::set_slide_angle(float p_angle) {
     set_floor_max_angle(p_angle);
 }
 
 float Player::get_slide_angle() {
     return get_floor_max_angle();
+}
+
+void Player::set_jump_force(float p_force) {
+    jump_velocity = p_force;
+}
+
+float Player::get_jump_force() {
+    return jump_velocity;
+}
+
+void Player::set_glide_gravity(float p_glide_gravity) {
+    glide_gravity = p_glide_gravity;
+}
+
+float Player::get_glide_gravity() {
+    return glide_gravity;
 }
 
 bool Player::get_ad_rotate() {
