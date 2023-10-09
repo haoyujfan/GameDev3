@@ -38,6 +38,8 @@ void Player::_bind_methods() {
     //ClassDB::bind_method(D_METHOD("_physics_process", "delta"), &Player::_physics_process);
 
     ADD_SIGNAL(MethodInfo("interact_orange"));
+    ADD_SIGNAL(MethodInfo("sound_effect_toggle", PropertyInfo(Variant::STRING, "toggle")));
+    ADD_SIGNAL(MethodInfo("rotate_mode_toggle", PropertyInfo(Variant::STRING, "toggle")));
 }
 
 Player::Player() {
@@ -109,6 +111,7 @@ void Player::_process(double delta) {
     if (Input::get_singleton()->is_action_just_pressed("Sound Effect")) {
         mute_sound_effects = !mute_sound_effects;
     }
+    toggles();
 }
 
 void Player::_physics_process(double delta) {
@@ -341,4 +344,19 @@ bool Player::get_sound_toggle() {
 
 void Player::set_points(int p_points) {
     points = p_points;
+}
+
+void Player::toggles() {
+    if (mute_sound_effects) {
+        emit_signal("sound_effect_toggle", "(muted)");
+    }
+    if (!mute_sound_effects) {
+        emit_signal("sound_effect_toggle", "(unmuted)");
+    }
+    if (AD_rotate) {
+        emit_signal("rotate_mode_toggle", "(AD Keys)");
+    }
+    if (!AD_rotate) {
+        emit_signal("rotate_mode_toggle", "(Mouse Movement)");
+    }
 }

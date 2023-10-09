@@ -36,6 +36,9 @@ Cactus::~Cactus() {
 
 // update the new position based on speed and trajectory
 void Cactus::_process(double delta) {
+    if(Engine::get_singleton()->is_editor_hint()) {
+        return;
+    }
     if (Input::get_singleton()->is_action_just_pressed("Sound Effect")) {
         mute_sound_effects = !mute_sound_effects;
     }
@@ -56,7 +59,6 @@ void Cactus::initialize_sound() {
     hurt = memnew(AudioStreamMP3);
     hurt->set_data(hurt_ptr->get_file_as_bytes(hurt_path));
     sound_effects = get_node<AudioStreamPlayer>("AudioStreamPlayer");
-    // play this in different functions
 }
 
 void Cactus::play_interact() {

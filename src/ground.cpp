@@ -14,7 +14,7 @@ void Ground::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_normal"), &Ground::get_normal);
     ClassDB::bind_method(D_METHOD("set_normal", "p_normal"), &Ground::set_normal);
     ClassDB::add_property("Ground", PropertyInfo(Variant::VECTOR3, "normal"), "set_normal", "get_normal");
-
+    ADD_SIGNAL(MethodInfo("music_toggle", PropertyInfo(Variant::STRING, "toggle")));
 }
 
 // constructor
@@ -26,23 +26,25 @@ Ground::~Ground() {
 }
 
 void Ground::_ready() {
-    // food1 = get_node<Food>("../Food");
-    // food2 = get_node<Food>("../Food2");
-    // food3 = get_node<Food>("../Food3");
-    // food4 = get_node<Food>("../Food4");
-
-    initialize_sound();
-    play_background();
     volume = -15;
     mute_music = false;
+    music_pos = 0.0;
+    initialize_sound();
 }
 
 void Ground::_process(double delta) {
     if(Engine::get_singleton()->is_editor_hint()) {
         return;
     }
-    if (background_player && !background_player->is_playing()) {
-        play_background();
+    if (Input::get_singleton()->is_action_just_pressed("Music")) {
+        mute_music = !mute_music;
+    }
+    if (mute_music && background_player->is_playing()) {
+        music_pos = background_player->get_playback_position();
+        background_player->stop();
+    }
+    if (!mute_music && !background_player->is_playing()) {
+        background_player->play(music_pos);
     }
     if (Input::get_singleton()->is_action_just_pressed("Volume Up")) {
         volume += 1;
@@ -52,6 +54,7 @@ void Ground::_process(double delta) {
         volume -= 1;
         background_player->set_volume_db(volume);
     }
+    toggle();
 }
 
 void Ground::initialize_sound() {
@@ -61,6 +64,11 @@ void Ground::initialize_sound() {
     background = memnew(AudioStreamMP3);
     background->set_data(background_ptr->get_file_as_bytes(background_path));
     background_player = get_node<AudioStreamPlayer>("../BackgroundPlayer");
+    if (background_player && !Engine::get_singleton()->is_editor_hint()) {
+        background_player->set_stream(background);
+        background_player->set_volume_db(volume);
+        background_player->play(music_pos);
+    }
 }
 
 // set normal
@@ -73,10 +81,11 @@ Vector3 Ground::get_normal() const {
     return normal;
 }
 
-void Ground::play_background() {
-    if (background_player && !Engine::get_singleton()->is_editor_hint()) {
-        background_player->set_stream(background);
-        background_player->set_volume_db(-15);
-        background_player->play(0.0);
+void Ground::toggle() {
+    if (mute_music) {
+        emit_signal("music_toggle", "(muted)");
+    }
+    if (!mute_music) {
+        emit_signal("music_toggle", "(unmuted)");
     }
 }

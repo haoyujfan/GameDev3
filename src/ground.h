@@ -20,6 +20,7 @@ private:
     AudioStreamPlayer *empty_interact_player;
     bool mute_music;
     float volume;
+    double music_pos;
 
 protected:
     static void _bind_methods();
@@ -32,9 +33,8 @@ public:
     void set_normal(const Vector3 p_normal);
     void _ready() override;
     void initialize_sound();
-    void play_background();
     void _process(double delta) override;
-
+    void toggle();
 
 };
 

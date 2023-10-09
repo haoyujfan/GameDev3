@@ -86,6 +86,7 @@ class Player : public CharacterBody3D {
         int get_points();
         bool get_sound_toggle();
         void set_points(int p_points);
+        void toggles();
 
 };
     
