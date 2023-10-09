@@ -15,10 +15,6 @@ using namespace godot;
 
 // bind c++ methods to godot
 void Food::_bind_methods() {
-    // ClassDB::bind_method(D_METHOD("get_value"), &Food::get_value);
-    // ClassDB::bind_method(D_METHOD("set_value", "p_value"), &Food::set_value);
-    // ClassDB::add_property("Food", PropertyInfo(Variant::INT, "value", PROPERTY_HINT_RANGE, 
-    //     "0, 3, 1"), "set_value", "get_value");
     ClassDB::bind_method(D_METHOD("food_body_entered", "node"), &Food::food_body_entered);
     ClassDB::bind_method(D_METHOD("food_body_exited", "node"), &Food::food_body_exited);
     

@@ -15,11 +15,17 @@
 using namespace godot;
 
 void Player::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("get_slide_angle"), &Player::get_slide_angle);
+    ClassDB::bind_method(D_METHOD("set_slide_angle", "slide angle"), &Player::set_slide_angle);
+    ClassDB::add_property("Player", PropertyInfo(Variant::FLOAT, "p_angle", PROPERTY_HINT_RANGE, 
+        "0.05,1.0, 0.01"), "set_slide_angle", "get_slide_angle");
+
+    ClassDB::bind_method(D_METHOD("get_points"), &Player::get_points);
     //ClassDB::bind_method(D_METHOD("_physics_process", "delta"), &Player::_physics_process);
 }
 
 Player::Player() {
-    //input = Input::get_singleton();
+    points = 0;
     gravity = 1400.0;
     jump_velocity = 300.0;
     speed = 75;
@@ -34,7 +40,6 @@ Player::~Player() {}
 void Player::_ready() {
     set_position(position);
     initialize_sound();
-    //this->connect("area_entered", Callable(this, "player_area_entered"));
     ray1 = get_node<Raycast>("Raycast");
     ray2 = get_node<Raycast>("Raycast2");
     ray3 = get_node<Raycast>("Raycast3");
@@ -54,7 +59,7 @@ void Player::_process(double delta) {
         food3->is_entered() || food4->is_entered();
     if (entered && Input::get_singleton()->is_action_pressed("E")) {
         if (!interact_player->is_playing()) {
-            UtilityFunctions::print("Interact");
+            points++;
             play_interact();
             if (food1->is_entered()) {
                 food1->queue_free();
@@ -107,11 +112,28 @@ void Player::_physics_process(double delta) {
         velocity.y = jump_velocity;
         jumped = false;
     }
+    if (Input::get_singleton()->is_action_just_pressed("Jump") && hanging) {
+        gravity = 1400.0;
+        velocity.y = jump_velocity;
+        jumped = true;
+        hanging = false;
+    }
 
-    // ledge stop (shift)
+    // ledge stop and ledge hang 
     if (Input::get_singleton()->is_action_pressed("Shift")) {
+        if (ray1->is_colliding() && ray2->is_colliding() &&
+            ray3->is_colliding() && ray4->is_colliding()) {
+            // WASD movement
+            if (AD_rotate) {
+                rotate_wasd();
+            }
+            else {
+                strafe_wasd();
+            }
+        }
+    } else if (Input::get_singleton()->is_action_pressed("H")) {
         if (ray1->is_colliding() || ray2->is_colliding() ||
-        ray3->is_colliding() || ray4->is_colliding()) {
+            ray3->is_colliding() || ray4->is_colliding()) {
             // WASD movement
             if (AD_rotate) {
                 rotate_wasd();
@@ -121,6 +143,7 @@ void Player::_physics_process(double delta) {
             }
         } else {
             gravity = 0;
+            hanging = true;
         }
     } else {
         // WASD movement
@@ -154,10 +177,10 @@ void Player::rotate_wasd() {
             translate_object_local(transform.get_basis().get_column(2));
         }
         if (Input::get_singleton()->is_action_pressed("A")) {
-            rotate_object_local(Vector3(0, 1, 0), 0.1);
+            rotate_object_local(Vector3(0, 1, 0), 0.05);
         }
         if (Input::get_singleton()->is_action_pressed("D")) {
-            rotate_object_local(Vector3(0, 1, 0), -0.1);
+            rotate_object_local(Vector3(0, 1, 0), -0.05);
         }
     }
 }
@@ -236,10 +259,18 @@ void Player::play_empty_interact() {
     }
 }
 
-// void Player::apply_movement(double acceleration) {
-//     velocity += acceleration;
-// }
+void Player::set_slide_angle(float p_angle) {
+    set_floor_max_angle(p_angle);
+}
+
+float Player::get_slide_angle() {
+    return get_floor_max_angle();
+}
 
 bool Player::get_ad_rotate() {
     return AD_rotate;
+}
+
+int Player::get_points() {
+    return points;
 }
