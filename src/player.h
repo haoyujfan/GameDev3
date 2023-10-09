@@ -8,6 +8,7 @@
 #include <godot_cpp/classes/audio_stream_mp3.hpp>
 #include <godot_cpp/classes/area3d.hpp>
 #include <godot_cpp/classes/random_number_generator.hpp>
+#include <godot_cpp/classes/static_body3d.hpp>
 #include "raycast.h"
 #include "food.h"
 #include "camera.h"
@@ -37,6 +38,8 @@ class Player : public CharacterBody3D {
         RandomNumberGenerator rand;
 
         Camera *camera;
+        Raycast *camera_cast;
+        StaticBody3D *colliding;
 
         // sounds
         AudioStreamPlayer *interact_player;
