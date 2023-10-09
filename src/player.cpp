@@ -79,31 +79,29 @@ void Player::_process(double delta) {
     }
     bool entered = food1->is_entered() || food2->is_entered() || 
         food3->is_entered() || food4->is_entered();
-    if (entered && Input::get_singleton()->is_action_pressed("E")) {
-        if (!interact_player->is_playing()) {
-            points++;
-            if (!mute_sound_effects) {
+    if (entered && Input::get_singleton()->is_action_just_pressed("E")) {
+        if (!interact_player->is_playing() && !mute_sound_effects) {
                 play_interact();
-            }
-            if (food1->is_entered()) {
-                food1->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
-                emit_signal("interact_orange");
-            } 
-            if (food2->is_entered()) {
-                food2->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
-                emit_signal("interact_orange");
-            } 
-            if (food3->is_entered()) {
-                food3->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
-                emit_signal("interact_orange");
-            } 
-            if (food4->is_entered()) {
-                food4->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
-                emit_signal("interact_orange");
-            } 
         }
+        points++;
+        if (food1->is_entered()) {
+            food1->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
+            emit_signal("interact_orange");
+        } 
+        if (food2->is_entered()) {
+            food2->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
+            emit_signal("interact_orange");
+        } 
+        if (food3->is_entered()) {
+            food3->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
+            emit_signal("interact_orange");
+        }
+        if (food4->is_entered()) {
+            food4->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
+            emit_signal("interact_orange");
+        } 
     }
-    if (!entered && Input::get_singleton()->is_action_pressed("E")) {
+    if (!entered && Input::get_singleton()->is_action_just_pressed("E")) {
         if (!empty_interact_player->is_playing() && !mute_sound_effects) {
             play_empty_interact();
         }
