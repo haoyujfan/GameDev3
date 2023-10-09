@@ -38,6 +38,9 @@ class Player : public CharacterBody3D {
         RandomNumberGenerator rand;
 
         Camera *camera;
+        Raycast *camera_cast1;
+        Raycast *camera_cast2;
+        Node3D *colliding;
 
         // sounds
         AudioStreamPlayer *interact_player;

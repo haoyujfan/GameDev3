@@ -10,6 +10,8 @@
 #include <godot_cpp/classes/audio_stream_mp3.hpp>
 #include <godot_cpp/variant/transform3d.hpp>
 #include <godot_cpp/classes/scene_tree.hpp>
+#include <godot_cpp/classes/object.hpp>
+
 
 
 #include <cstdlib>
@@ -65,6 +67,9 @@ void Player::_ready() {
     ray2 = get_node<Raycast>("Raycast2");
     ray3 = get_node<Raycast>("Raycast3");
     ray4 = get_node<Raycast>("Raycast4");
+    camera_cast1 = get_node<Raycast>("Node3D/Camera/Raycast");
+    camera_cast2 = get_node<Raycast>("Node3D/Camera/Raycast2");
+    colliding = NULL;
 
     food1 = get_node<Food>("../Food");
     food2 = get_node<Food>("../Food2");
@@ -112,6 +117,16 @@ void Player::_process(double delta) {
         mute_sound_effects = !mute_sound_effects;
     }
     toggles();
+
+    // dithering for camera collisions
+    if (camera_cast1->is_colliding() && camera_cast2->is_colliding()) {
+        colliding = Object::cast_to<Node3D>(camera_cast1->get_collider());
+        colliding->set_visible(false);
+    }
+    if (!camera_cast1->is_colliding() && !camera_cast2->is_colliding() && colliding) {
+        colliding->set_visible(true);
+        colliding = NULL;
+    }
 }
 
 void Player::_physics_process(double delta) {
