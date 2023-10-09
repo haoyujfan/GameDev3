@@ -19,6 +19,8 @@ void Cactus::_bind_methods() {
         "0, 3, 1"), "set_value", "get_value");
 
     ClassDB::bind_method(D_METHOD("cactus_body_entered", "area"), &Cactus::cactus_body_entered);
+
+    ADD_SIGNAL(MethodInfo("interact_cactus"));
 }
 
 // constructor
@@ -63,6 +65,7 @@ void Cactus::play_interact() {
 void Cactus::cactus_body_entered(const Node3D* node) {
     if (node->get_class() == "Player") {
         play_interact();
+        emit_signal("interact_cactus");
     }
 }
 

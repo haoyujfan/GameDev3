@@ -1,4 +1,5 @@
 #include "player.h"
+#include "camera.h"
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/random_number_generator.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
@@ -35,6 +36,8 @@ void Player::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("get_points"), &Player::get_points);
     //ClassDB::bind_method(D_METHOD("_physics_process", "delta"), &Player::_physics_process);
+
+    ADD_SIGNAL(MethodInfo("interact_orange"));
 }
 
 Player::Player() {
@@ -65,6 +68,8 @@ void Player::_ready() {
     food3 = get_node<Food>("../Food3");
     food4 = get_node<Food>("../Food4");
 
+    camera = get_node<Camera>("Node3D/Camera");
+
     tree = get_tree();
 }
 
@@ -81,16 +86,20 @@ void Player::_process(double delta) {
                 play_interact();
             }
             if (food1->is_entered()) {
-                food1->queue_free();
+                food1->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
+                emit_signal("interact_orange");
             } 
             if (food2->is_entered()) {
-                food2->queue_free();
+                food2->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
+                emit_signal("interact_orange");
             } 
             if (food3->is_entered()) {
-                food3->queue_free();
+                food3->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
+                emit_signal("interact_orange");
             } 
             if (food4->is_entered()) {
-                food4->queue_free();
+                food4->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
+                emit_signal("interact_orange");
             } 
         }
     }
@@ -202,10 +211,14 @@ void Player::rotate_wasd() {
             translate_object_local(transform.get_basis().get_column(2));
         }
         if (Input::get_singleton()->is_action_pressed("A")) {
+            camera->set_as_top_level(true);
             rotate_object_local(Vector3(0, 1, 0), 0.05);
+            camera->set_as_top_level(false);
         }
         if (Input::get_singleton()->is_action_pressed("D")) {
+            camera->set_as_top_level(true);
             rotate_object_local(Vector3(0, 1, 0), -0.05);
+            camera->set_as_top_level(false);
         }
     }
 }

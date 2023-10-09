@@ -36,12 +36,12 @@ void Camera::_input(const Ref<InputEvent> &event) {
             rotation += Vector3(0.0, -1 * key_event->get_relative()[0] / (1000 - speed), 0.0);
             player->set_rotation(rotation);
         } else {
-            rotation += Vector3(-1 * key_event->get_relative()[1] / (1000 - speed), -1 * key_event->get_relative()[0] / (1000 - speed), 0.0);
-            if (rotation[0] > 0) {
-                rotation[0] = 0;
-            } else if (rotation[0] < -2.8) {
-                rotation[0] = -2.8;
-            }        
+            rotation += Vector3(0.0, -1 * key_event->get_relative()[0] / (1000 - speed), 0.0);
+            // if (rotation[0] > 0) {
+            //     rotation[0] = 0;
+            // } else if (rotation[0] < -2.8) {
+            //     rotation[0] = -2.8;
+            // }        
             tgt->set_rotation(rotation);
         }
 	}
