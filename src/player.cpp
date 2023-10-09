@@ -1,4 +1,5 @@
 #include "player.h"
+#include "camera.h"
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/random_number_generator.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
@@ -65,6 +66,8 @@ void Player::_ready() {
     food2 = get_node<Food>("../Food2");
     food3 = get_node<Food>("../Food3");
     food4 = get_node<Food>("../Food4");
+
+    camera = get_node<Camera>("Node3D/Camera");
 }
 
 void Player::_process(double delta) {
@@ -198,10 +201,14 @@ void Player::rotate_wasd() {
             translate_object_local(transform.get_basis().get_column(2));
         }
         if (Input::get_singleton()->is_action_pressed("A")) {
+            camera->set_as_top_level(true);
             rotate_object_local(Vector3(0, 1, 0), 0.05);
+            camera->set_as_top_level(false);
         }
         if (Input::get_singleton()->is_action_pressed("D")) {
+            camera->set_as_top_level(true);
             rotate_object_local(Vector3(0, 1, 0), -0.05);
+            camera->set_as_top_level(false);
         }
     }
 }

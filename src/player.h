@@ -10,6 +10,7 @@
 #include <godot_cpp/classes/random_number_generator.hpp>
 #include "raycast.h"
 #include "food.h"
+#include "camera.h"
 
 using namespace godot;
 
@@ -33,6 +34,8 @@ class Player : public CharacterBody3D {
         Food *food3;
         Food *food4;
         RandomNumberGenerator rand;
+
+        Camera *camera;
 
         // sounds
         AudioStreamPlayer *interact_player;
