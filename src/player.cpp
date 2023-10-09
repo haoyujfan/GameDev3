@@ -56,6 +56,20 @@ void Player::_process(double delta) {
         if (!interact_player->is_playing()) {
             UtilityFunctions::print("Interact");
             play_interact();
+            if (food1->is_entered()) {
+                food1->queue_free();
+            } 
+            if (food2->is_entered()) {
+                food2->queue_free();
+            } 
+            if (food3->is_entered()) {
+                food3->queue_free();
+            } 
+            if (food4->is_entered()) {
+                food4->queue_free();
+            } 
+
+
         }
     }
     if (!entered && Input::get_singleton()->is_action_pressed("E")) {
