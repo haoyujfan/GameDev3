@@ -55,6 +55,7 @@ class Player : public CharacterBody3D {
         double jump_velocity;
         double speed;
         double air_resistance;
+        double current_air;
         bool jumped;
         bool hanging;
         bool AD_rotate;

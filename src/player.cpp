@@ -55,6 +55,7 @@ Player::Player() {
     jump_velocity = 300.0;
     speed = 2;
     air_resistance = 0;
+    current_air = 0;
     velocity = Vector3(0.0, 0.0, 0.0);
     position = Vector3(0.0, 10.0, 0.0);
     hanging = false;
@@ -162,6 +163,7 @@ void Player::_physics_process(double delta) {
         jumped = true;
     }
     if (Input::get_singleton()->is_action_just_pressed("Jump") && !this->is_on_floor() && jumped) {
+        gravity = 1400.0;
         velocity.y = jump_velocity;
         jumped = false;
     }
@@ -208,11 +210,14 @@ void Player::_physics_process(double delta) {
         }
     }
     // gliding (g)
-    if (Input::get_singleton()->is_action_pressed("G")) {
+    if (Input::get_singleton()->is_action_pressed("G") && velocity.y < 0) {
         gravity = glide_gravity;
+        current_air = air_resistance;
+        air_resistance = 0;
     }
     if (Input::get_singleton()->is_action_just_released("G")) {
         gravity = 1400.0;
+        air_resistance = current_air;
     }
     if (get_position().y < -100.0 || points < 0) {
         tree->change_scene_to_file("res://scenes/lose_screen.tscn");
