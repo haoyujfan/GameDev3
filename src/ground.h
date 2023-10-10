@@ -13,7 +13,6 @@ class Ground : public StaticBody3D {
 
 private:
 
-    Vector3 normal;
     AudioStreamMP3 *background;
     AudioStreamMP3 *empty_interact;
     AudioStreamPlayer *background_player;
@@ -29,10 +28,9 @@ public:
     Ground();
     ~Ground();
 
-    Vector3 get_normal() const;
-    void set_normal(const Vector3 p_normal);
     void _ready() override;
     void initialize_sound();
+    void music_controls();
     void _process(double delta) override;
     void toggle();
 

@@ -35,14 +35,6 @@ void Food::_ready() {
     this->connect("body_exited", Callable(this, "food_body_exited"));
 }
 
-int Food::get_value() const{
-    return value;
-}
-
-void Food::set_value(const int p_value) {
-   // value = p_value;
-}
-
 void Food::food_body_entered(const Node3D* node) {
     if (node->get_class() == "Player") {
         entered = true;

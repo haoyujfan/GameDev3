@@ -6,11 +6,12 @@
 script = ExtResource("1_lnltj")
 
 [node name="Label" type="Label" parent="."]
-offset_left = 320.0
-offset_right = 832.0
+offset_left = 168.0
+offset_right = 976.0
 offset_bottom = 256.0
-theme_override_font_sizes/font_size = 100
-text = "You Win :)"
+theme_override_font_sizes/font_size = 50
+text = "You Win :)
+Congratulations! You got 10 lives."
 horizontal_alignment = 1
 vertical_alignment = 1
 
