@@ -30,7 +30,7 @@ void Player::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_glide_gravity"), &Player::get_glide_gravity);
     ClassDB::bind_method(D_METHOD("set_glide_gravity", "glide gravity"), &Player::set_glide_gravity);
     ClassDB::add_property("Player", PropertyInfo(Variant::FLOAT, "glide gravity", PROPERTY_HINT_RANGE, 
-        "500, 1000, 50"), "set_glide_gravity", "get_glide_gravity");
+        "100, 600, 50"), "set_glide_gravity", "get_glide_gravity");
     ClassDB::bind_method(D_METHOD("get_gravity"), &Player::get_gravity);
     ClassDB::bind_method(D_METHOD("set_gravity", "gravity"), &Player::set_gravity);
     ClassDB::add_property("Player", PropertyInfo(Variant::FLOAT, "gravity", PROPERTY_HINT_RANGE, 
@@ -51,7 +51,7 @@ void Player::_bind_methods() {
 Player::Player() {
     points = 0;
     gravity = 1400.0;
-    glide_gravity = 800.0;
+    glide_gravity = 200.0;
     jump_velocity = 300.0;
     speed = 2;
     air_resistance = 0;
@@ -148,15 +148,14 @@ void Player::_physics_process(double delta) {
     if (this->is_on_floor()) {
         speed = 2;
         gravity = 1400.0;
-        momentum = Vector3(0.0, 0.0, 0.0);
+        momentum = Vector3(0, 0, 0);
     }
 
     // gravity and jumping
     if (!this->is_on_floor()) {
-        velocity.y -= gravity * delta;
-        velocity += momentum;
         speed = 2 - air_resistance;
-        //position.y -= 1;
+        velocity.y -= gravity * delta;
+        translate_object_local(momentum);
     }
     if (Input::get_singleton()->is_action_just_pressed("Jump") && this->is_on_floor()) {
         velocity.y = jump_velocity;
@@ -179,10 +178,10 @@ void Player::_physics_process(double delta) {
             ray3->is_colliding() && ray4->is_colliding()) {
             // WASD movement
             if (AD_rotate) {
-                momentum += rotate_wasd();
+                momentum = rotate_wasd();
             }
             else {
-                momentum += strafe_wasd();
+                momentum = strafe_wasd();
             }
         }
     } else if (Input::get_singleton()->is_action_pressed("H")) {
@@ -190,10 +189,10 @@ void Player::_physics_process(double delta) {
             ray3->is_colliding() || ray4->is_colliding()) {
             // WASD movement
             if (AD_rotate) {
-                momentum += rotate_wasd();
+                momentum = rotate_wasd();
             }
             else {
-                momentum += strafe_wasd();
+                momentum = strafe_wasd();
             }
         } else {
             gravity = 0;
@@ -202,10 +201,10 @@ void Player::_physics_process(double delta) {
     } else {
         // WASD movement
         if (AD_rotate) {
-            rotate_wasd();
+            momentum = rotate_wasd();
         }
         else {
-            strafe_wasd();
+            momentum = strafe_wasd();
         }
     }
     // gliding (g)
@@ -232,14 +231,18 @@ void Player::_physics_process(double delta) {
 }
 
 Vector3 Player::rotate_wasd() {
-    Vector3 result = Vector3(0.0, 0.0, 0.0);
+    Vector3 result = Vector3(0, 0, 0);
     if (!hanging) {
         if (Input::get_singleton()->is_action_pressed("W")) {
-            translate_object_local(-transform.get_basis().get_column(2) * speed);
+            if (this->is_on_floor()) {
+                translate_object_local(-transform.get_basis().get_column(2) * speed);
+            }
             result += -transform.get_basis().get_column(2) * speed;
         }
         if (Input::get_singleton()->is_action_pressed("S")) {
-            translate_object_local(transform.get_basis().get_column(2) * speed);
+            if (this->is_on_floor()) {
+                translate_object_local(transform.get_basis().get_column(2) * speed);
+            }
             result += transform.get_basis().get_column(2) * speed;
         }
         if (Input::get_singleton()->is_action_pressed("A")) {
@@ -253,30 +256,46 @@ Vector3 Player::rotate_wasd() {
             camera->set_as_top_level(false);
         }
     }
-    return result;
+    if (result == Vector3(0, 0, 0)) {
+        return momentum;
+    } else {
+        return result;
+    }
 }
 
 Vector3 Player::strafe_wasd() {
-    Vector3 result = Vector3(0.0, 0.0, 0.0);
+    Vector3 result = Vector3(0, 0, 0);
     if (!hanging) {
         if (Input::get_singleton()->is_action_pressed("W")) {
-            translate_object_local(-transform.get_basis().get_column(2) * speed);
+            if (this->is_on_floor()) {
+                translate_object_local(-transform.get_basis().get_column(2) * speed);
+            }
             result += -transform.get_basis().get_column(2) * speed;
         }
         if (Input::get_singleton()->is_action_pressed("S")) {
-            translate_object_local(transform.get_basis().get_column(2) * speed);
+            if (this->is_on_floor()) {
+                translate_object_local(transform.get_basis().get_column(2) * speed);
+            }
             result += transform.get_basis().get_column(2) * speed;
         }
         if (Input::get_singleton()->is_action_pressed("A")) {
-            translate_object_local(-transform.get_basis().get_column(0) * speed);
+            if (this->is_on_floor()) {
+                translate_object_local(-transform.get_basis().get_column(0) * speed);
+            }
             result += -transform.get_basis().get_column(0) * speed;
         }
         if (Input::get_singleton()->is_action_pressed("D")) {
-            translate_object_local(transform.get_basis().get_column(0) * speed);
+            if (this->is_on_floor()) {
+                translate_object_local(transform.get_basis().get_column(0) * speed);
+            }
             result += transform.get_basis().get_column(0) * speed;
         }
     }
-    return result;
+    if (result == Vector3(0, 0, 0)) {
+        return momentum;
+    } else {
+        return result;
+    }
 
 }
 
