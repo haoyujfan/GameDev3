@@ -154,9 +154,13 @@ void Player::_physics_process(double delta) {
 
     // gravity and jumping
     if (!this->is_on_floor()) {
-        speed -= air_resistance * delta;
-        velocity.y -= gravity * delta;
-        translate_object_local(momentum);
+        if (!hanging) {
+            speed -= air_resistance * delta;
+            velocity.y -= gravity * delta;
+            translate_object_local(momentum);
+        } else {
+            gravity = 0;
+        }
     }
     if (Input::get_singleton()->is_action_just_pressed("Jump") && this->is_on_floor()) {
         velocity.y = jump_velocity;
@@ -198,6 +202,7 @@ void Player::_physics_process(double delta) {
             }
         } else {
             gravity = 0;
+            velocity.y = 0;
             hanging = true;
         }
     } else {
