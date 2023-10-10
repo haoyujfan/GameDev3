@@ -10,10 +10,6 @@
 using namespace godot;
 
 void Ground::_bind_methods() {
-
-    ClassDB::bind_method(D_METHOD("get_normal"), &Ground::get_normal);
-    ClassDB::bind_method(D_METHOD("set_normal", "p_normal"), &Ground::set_normal);
-    ClassDB::add_property("Ground", PropertyInfo(Variant::VECTOR3, "normal"), "set_normal", "get_normal");
     ADD_SIGNAL(MethodInfo("music_toggle", PropertyInfo(Variant::STRING, "toggle")));
 }
 
@@ -33,6 +29,34 @@ void Ground::_ready() {
 }
 
 void Ground::_process(double delta) {
+    music_controls();
+    toggle();
+}
+
+void Ground::initialize_sound() {
+    String background_path = "res://audio/background.mp3";
+    Ref<FileAccess> file = FileAccess::open(background_path, FileAccess::ModeFlags::READ);
+    FileAccess *background_ptr = Object::cast_to<FileAccess>(*file);
+    background = memnew(AudioStreamMP3);
+    background->set_data(background_ptr->get_file_as_bytes(background_path));
+    background_player = get_node<AudioStreamPlayer>("../BackgroundPlayer");
+    if (background_player && !Engine::get_singleton()->is_editor_hint()) {
+        background_player->set_stream(background);
+        background_player->set_volume_db(volume);
+        background_player->play(music_pos);
+    }
+}
+
+void Ground::toggle() {
+    if (mute_music) {
+        emit_signal("music_toggle", "(muted)");
+    }
+    if (!mute_music) {
+        emit_signal("music_toggle", "(unmuted)");
+    }
+}
+
+void Ground::music_controls() {
     if(Engine::get_singleton()->is_editor_hint()) {
         return;
     }
@@ -53,39 +77,5 @@ void Ground::_process(double delta) {
     if (Input::get_singleton()->is_action_just_pressed("Volume Down")) {
         volume -= 1;
         background_player->set_volume_db(volume);
-    }
-    toggle();
-}
-
-void Ground::initialize_sound() {
-    String background_path = "res://audio/background.mp3";
-    Ref<FileAccess> file = FileAccess::open(background_path, FileAccess::ModeFlags::READ);
-    FileAccess *background_ptr = Object::cast_to<FileAccess>(*file);
-    background = memnew(AudioStreamMP3);
-    background->set_data(background_ptr->get_file_as_bytes(background_path));
-    background_player = get_node<AudioStreamPlayer>("../BackgroundPlayer");
-    if (background_player && !Engine::get_singleton()->is_editor_hint()) {
-        background_player->set_stream(background);
-        background_player->set_volume_db(volume);
-        background_player->play(music_pos);
-    }
-}
-
-// set normal
-void Ground::set_normal(const Vector3 p_normal) {
-    normal = p_normal;
-}
-
-// get normal
-Vector3 Ground::get_normal() const {
-    return normal;
-}
-
-void Ground::toggle() {
-    if (mute_music) {
-        emit_signal("music_toggle", "(muted)");
-    }
-    if (!mute_music) {
-        emit_signal("music_toggle", "(unmuted)");
     }
 }

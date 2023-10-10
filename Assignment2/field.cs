@@ -5,7 +5,7 @@ public partial class field : Node3D
 {
 	//var player = new Player();
 	//private Player player;
-	private RichTextLabel Points;
+	private RichTextLabel Lives;
 	private RichTextLabel Effects;
 	private RichTextLabel Rotate;
 	private RichTextLabel Music;
@@ -14,7 +14,7 @@ public partial class field : Node3D
 	public override void _Ready()
 	{
 		//player = GetNode<Player>("Player");
-		Points = GetNode<RichTextLabel>("Points");
+		Lives = GetNode<RichTextLabel>("Lives");
 		Effects = GetNode<RichTextLabel>("SoundEffectToggle");
 		Rotate = GetNode<RichTextLabel>("RotateToggle");
 		Music = GetNode<RichTextLabel>("MusicToggle");
@@ -26,7 +26,7 @@ public partial class field : Node3D
 	{
 		//Points.Text = "Points: " + player.Call(Player.get_points());
 		//Points.Text = "Points: " + GetNode<Player>("Player").get_points();
-		Points.Text = "Points: " + PointsValue.ToString();
+		Lives.Text = "Lives: " + PointsValue.ToString();
 	}
 	
 	private void _on_player_interact_orange()

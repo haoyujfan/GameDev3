@@ -14,11 +14,6 @@ using namespace godot;
 
 // bind c++ methods to godot
 void Cactus::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("get_value"), &Cactus::get_value);
-    ClassDB::bind_method(D_METHOD("set_value", "p_value"), &Cactus::set_value);
-    ClassDB::add_property("Cactus", PropertyInfo(Variant::INT, "value", PROPERTY_HINT_RANGE, 
-        "0, 3, 1"), "set_value", "get_value");
-
     ClassDB::bind_method(D_METHOD("cactus_body_entered", "area"), &Cactus::cactus_body_entered);
 
     ADD_SIGNAL(MethodInfo("interact_cactus"));
@@ -74,15 +69,8 @@ void Cactus::cactus_body_entered(const Node3D* node) {
     if (node->get_class() == "Player") {
         play_interact();
         emit_signal("interact_cactus");
-        int points = player->get_points();
-        player->set_points(points - 1);
+        int lives = player->get_lives();
+        player->set_lives(lives - 1);
     }
 }
 
-int Cactus::get_value() const{
-    return value;
-}
-
-void Cactus::set_value(const int p_value) {
-    value = p_value;
-}

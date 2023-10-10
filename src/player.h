@@ -29,7 +29,7 @@ class Player : public CharacterBody3D {
         Raycast *ray3;
         Raycast *ray4;
         SceneTree *tree;
-        int points;
+        int lives;
 
         Food *food1;
         Food *food2;
@@ -70,9 +70,6 @@ class Player : public CharacterBody3D {
         void _process(double delta) override;
         void _physics_process(double delta) override;
         void _ready() override;
-        void apply_friction(double p_friction);
-        void apply_movement(double acceleration);
-        void limit_speed(double limit);
         Vector3 rotate_wasd();
         Vector3 strafe_wasd();
 
@@ -83,19 +80,28 @@ class Player : public CharacterBody3D {
 
         void set_gravity(float p_gravity);
         float get_gravity();
+
         void set_slide_angle(float p_angle);
         float get_slide_angle();
+
         void set_jump_force(float p_force);
         float get_jump_force();
+
         void set_glide_gravity(float p_glide_gravity);
         float get_glide_gravity();
+
         void set_air_resistance(float p_air_resistance);
         float get_air_resistance();
-        int get_points();
-        bool get_sound_toggle();
-        void set_points(int p_points);
-        void toggles();
 
+        void ledge_hang();
+        void gliding();
+           
+        bool get_sound_toggle();
+        int get_lives();
+        void set_lives(int p_lives);
+        void toggles();
+        void end_conditions();
+        void food_interaction(bool entered);
 };
     
 

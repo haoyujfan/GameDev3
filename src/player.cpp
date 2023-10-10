@@ -12,8 +12,6 @@
 #include <godot_cpp/classes/scene_tree.hpp>
 #include <godot_cpp/classes/object.hpp>
 
-
-
 #include <cstdlib>
 
 using namespace godot;
@@ -23,25 +21,28 @@ void Player::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_slide_angle", "slide angle"), &Player::set_slide_angle);
     ClassDB::add_property("Player", PropertyInfo(Variant::FLOAT, "slide angle", PROPERTY_HINT_RANGE, 
         "0.05,1.0, 0.01"), "set_slide_angle", "get_slide_angle");
+
     ClassDB::bind_method(D_METHOD("get_jump_force"), &Player::get_jump_force);
     ClassDB::bind_method(D_METHOD("set_jump_force", "jump force"), &Player::set_jump_force);
     ClassDB::add_property("Player", PropertyInfo(Variant::FLOAT, "jump force", PROPERTY_HINT_RANGE, 
         "100, 500, 50"), "set_jump_force", "get_jump_force");
+
     ClassDB::bind_method(D_METHOD("get_glide_gravity"), &Player::get_glide_gravity);
     ClassDB::bind_method(D_METHOD("set_glide_gravity", "glide gravity"), &Player::set_glide_gravity);
     ClassDB::add_property("Player", PropertyInfo(Variant::FLOAT, "glide gravity", PROPERTY_HINT_RANGE, 
         "100, 600, 50"), "set_glide_gravity", "get_glide_gravity");
+
     ClassDB::bind_method(D_METHOD("get_gravity"), &Player::get_gravity);
     ClassDB::bind_method(D_METHOD("set_gravity", "gravity"), &Player::set_gravity);
     ClassDB::add_property("Player", PropertyInfo(Variant::FLOAT, "gravity", PROPERTY_HINT_RANGE, 
         "500, 2000, 100"), "set_gravity", "get_gravity");
+
     ClassDB::bind_method(D_METHOD("get_air_resistance"), &Player::get_air_resistance);
     ClassDB::bind_method(D_METHOD("set_air_resistance", "air_resistance"), &Player::set_air_resistance);
     ClassDB::add_property("Player", PropertyInfo(Variant::FLOAT, "air resistance", PROPERTY_HINT_RANGE, 
         "0, 2, 0.1"), "set_air_resistance", "get_air_resistance");
 
-    ClassDB::bind_method(D_METHOD("get_points"), &Player::get_points);
-    //ClassDB::bind_method(D_METHOD("_physics_process", "delta"), &Player::_physics_process);
+    ClassDB::bind_method(D_METHOD("get_lives"), &Player::get_lives);
 
     ADD_SIGNAL(MethodInfo("interact_orange"));
     ADD_SIGNAL(MethodInfo("sound_effect_toggle", PropertyInfo(Variant::STRING, "toggle")));
@@ -49,7 +50,7 @@ void Player::_bind_methods() {
 }
 
 Player::Player() {
-    points = 0;
+    lives = 0;
     gravity = 1400.0;
     glide_gravity = 200.0;
     jump_velocity = 300.0;
@@ -92,33 +93,17 @@ void Player::_process(double delta) {
     }
     bool entered = food1->is_entered() || food2->is_entered() || 
         food3->is_entered() || food4->is_entered();
-    if (entered && Input::get_singleton()->is_action_just_pressed("E")) {
-        if (!interact_player->is_playing() && !mute_sound_effects) {
-                play_interact();
-        }
-        points++;
-        if (food1->is_entered()) {
-            food1->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
-            emit_signal("interact_orange");
-        } 
-        if (food2->is_entered()) {
-            food2->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
-            emit_signal("interact_orange");
-        } 
-        if (food3->is_entered()) {
-            food3->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
-            emit_signal("interact_orange");
-        }
-        if (food4->is_entered()) {
-            food4->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), rand.randf_range(-50, 50)));
-            emit_signal("interact_orange");
-        } 
-    }
+    
+    // handle food interactions
+    food_interaction(entered);
+
+    // empty interaction
     if (!entered && Input::get_singleton()->is_action_just_pressed("E")) {
         if (!empty_interact_player->is_playing() && !mute_sound_effects) {
             play_empty_interact();
         }
     }
+    // sound effect toggle
     if (Input::get_singleton()->is_action_just_pressed("Sound Effect")) {
         mute_sound_effects = !mute_sound_effects;
     }
@@ -152,11 +137,18 @@ void Player::_physics_process(double delta) {
         momentum = Vector3(0, 0, 0);
     }
 
+    ledge_hang();
     // gravity and jumping
     if (!this->is_on_floor()) {
-        speed -= air_resistance * delta;
-        velocity.y -= gravity * delta;
-        translate_object_local(momentum);
+        if (!hanging) {
+            translate_object_local(momentum);
+            velocity.y -= gravity * delta;
+            speed -= air_resistance * delta;
+        }
+        else {
+            gravity = 0;
+        }
+
     }
     if (Input::get_singleton()->is_action_just_pressed("Jump") && this->is_on_floor()) {
         velocity.y = jump_velocity;
@@ -174,64 +166,10 @@ void Player::_physics_process(double delta) {
         hanging = false;
     }
 
-    // ledge stop and ledge hang 
-    if (Input::get_singleton()->is_action_pressed("Shift")) {
-        if (ray1->is_colliding() && ray2->is_colliding() &&
-            ray3->is_colliding() && ray4->is_colliding()) {
-            // WASD movement
-            if (AD_rotate) {
-                momentum = rotate_wasd();
-            }
-            else {
-                momentum = strafe_wasd();
-            }
-        }
-    } else if (Input::get_singleton()->is_action_pressed("H")) {
-        if (ray1->is_colliding() || ray2->is_colliding() ||
-            ray3->is_colliding() || ray4->is_colliding()) {
-            // WASD movement
-            if (AD_rotate) {
-                momentum = rotate_wasd();
-            }
-            else {
-                momentum = strafe_wasd();
-            }
-        } else {
-            gravity = 0;
-            hanging = true;
-        }
-    } else {
-        // WASD movement
-        if (AD_rotate) {
-            momentum = rotate_wasd();
-        }
-        else {
-            momentum = strafe_wasd();
-        }
-    }
-    // gliding (g)
-    if (Input::get_singleton()->is_action_pressed("G") && velocity.y < 0) {
-        gravity = glide_gravity;
-        current_air = air_resistance;
-        air_resistance = 0;
-    }
-    if (Input::get_singleton()->is_action_just_released("G")) {
-        gravity = 1400.0;
-        air_resistance = current_air;
-    }
-    if (get_position().y < -100.0 || points < 0) {
-        tree->change_scene_to_file("res://scenes/lose_screen.tscn");
-    }
-    if (points == 10) {
-        tree->change_scene_to_file("res://scenes/win_screen.tscn");
-    }
-
-    // gacky way to limit speed, fix later
-    limit_speed(75);
+    gliding();
+    
+    end_conditions();
     set_velocity(velocity);
-    // if (this->is_on_floor()) {
-    //     apply_friction(800 * delta);
-    // }
     move_and_slide();
 }
 
@@ -301,31 +239,6 @@ Vector3 Player::strafe_wasd() {
     } else {
         return result;
     }
-
-}
-
-void Player::apply_friction(double p_friction) {
-    if (velocity.length() > p_friction) {
-        velocity -= velocity.normalized() * p_friction;
-    }
-    else {
-        velocity = Vector3(0.0, 0.0, 0.0);
-    }
-}
-
-void Player::limit_speed(double limit) {
-    if (velocity.x > limit) {
-        velocity.x = limit;
-    }
-    if (velocity.z > limit) {
-        velocity.z = limit;
-    }
-    if (velocity.x < -limit) {
-        velocity.x = -limit;
-    }
-    if (velocity.z < -limit) {
-        velocity.z = -limit;
-    }
 }
 
 void Player::initialize_sound() {
@@ -357,6 +270,87 @@ void Player::play_empty_interact() {
         empty_interact_player->set_stream(empty_interact);
         empty_interact_player->set_volume_db(-17.0);
         empty_interact_player->play(0.0);
+    }
+}
+
+void Player::food_interaction(bool entered) {
+    if (entered && Input::get_singleton()->is_action_just_pressed("E")) {
+        if (!interact_player->is_playing() && !mute_sound_effects) {
+                play_interact();
+        }
+        lives++;
+        if (food1->is_entered()) {
+            food1->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), 
+            rand.randf_range(-50, 50)));
+            emit_signal("interact_orange");
+        } 
+        if (food2->is_entered()) {
+            food2->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), 
+            rand.randf_range(-50, 50)));
+            emit_signal("interact_orange");
+        } 
+        if (food3->is_entered()) {
+            food3->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), 
+            rand.randf_range(-50, 50)));
+            emit_signal("interact_orange");
+        }
+        if (food4->is_entered()) {
+            food4->set_position(Vector3(rand.randf_range(-50, 50), rand.randf_range(2, 20), 
+            rand.randf_range(-50, 50)));
+            emit_signal("interact_orange");
+        } 
+    }
+}
+
+void Player::ledge_hang() {
+     // ledge stop and ledge hang 
+    if (Input::get_singleton()->is_action_pressed("Shift")) {
+        if (ray1->is_colliding() && ray2->is_colliding() &&
+            ray3->is_colliding() && ray4->is_colliding()) {
+            // WASD movement
+            if (AD_rotate) {
+                momentum = rotate_wasd();
+            }
+            else {
+                momentum = strafe_wasd();
+            }
+        }
+    } else if (Input::get_singleton()->is_action_pressed("H")) {
+        if (ray1->is_colliding() || ray2->is_colliding() ||
+            ray3->is_colliding() || ray4->is_colliding()) {
+            // WASD movement
+            if (AD_rotate) {
+                momentum = rotate_wasd();
+            }
+            else {
+                momentum = strafe_wasd();
+            }
+        } else {
+            gravity = 0;
+            velocity.y = 0;
+            hanging = true;
+        }
+    } else {
+        // WASD movement
+        if (AD_rotate) {
+            momentum = rotate_wasd();
+        }
+        else {
+            momentum = strafe_wasd();
+        }
+    }
+}
+
+void Player::gliding() {
+       // gliding (g)
+    if (Input::get_singleton()->is_action_pressed("G") && velocity.y < 0) {
+        gravity = glide_gravity;
+        current_air = air_resistance;
+        air_resistance = 0;
+    }
+    if (Input::get_singleton()->is_action_just_released("G")) {
+        gravity = 1400.0;
+        air_resistance = current_air;
     }
 }
 
@@ -404,16 +398,16 @@ bool Player::get_ad_rotate() {
     return AD_rotate;
 }
 
-int Player::get_points() {
-    return points;
+int Player::get_lives() {
+    return lives;
 }
 
 bool Player::get_sound_toggle() {
     return mute_sound_effects;
 }
 
-void Player::set_points(int p_points) {
-    points = p_points;
+void Player::set_lives(int p_lives) {
+    lives = p_lives;
 }
 
 void Player::toggles() {
@@ -428,5 +422,18 @@ void Player::toggles() {
     }
     if (!AD_rotate) {
         emit_signal("rotate_mode_toggle", "(Mouse Movement)");
+    }
+}
+
+void Player::end_conditions() {
+    if (get_position().y < -100.0) {
+        tree->change_scene_to_file("res://scenes/off_map.tscn");
+    }
+    else if (lives < 0) {
+        tree->change_scene_to_file("res://scenes/no_lives.tscn");
+
+    }
+    if (lives == 10) {
+        tree->change_scene_to_file("res://scenes/win_screen.tscn");
     }
 }

@@ -27,8 +27,8 @@ void Camera::_input(const Ref<InputEvent> &event) {
         return;
     }
 	const InputEventMouseMotion *key_event = Object::cast_to<const InputEventMouseMotion>(*event);
+    
 	if (key_event) {
-        
         Node3D* tgt = Object::cast_to<Node3D>(get_parent());
         Player* player = get_node<Player>("../../../Player");
         if (!player->get_ad_rotate()) {
@@ -36,12 +36,7 @@ void Camera::_input(const Ref<InputEvent> &event) {
             rotation += Vector3(0.0, -1 * key_event->get_relative()[0] / (1000 - speed), 0.0);
             player->set_rotation(rotation);
         } else {
-            rotation += Vector3(0.0, -1 * key_event->get_relative()[0] / (1000 - speed), 0.0);
-            // if (rotation[0] > 0) {
-            //     rotation[0] = 0;
-            // } else if (rotation[0] < -2.8) {
-            //     rotation[0] = -2.8;
-            // }        
+            rotation += Vector3(0.0, -1 * key_event->get_relative()[0] / (1000 - speed), 0.0);     
             tgt->set_rotation(rotation);
         }
 	}
