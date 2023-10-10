@@ -153,7 +153,7 @@ void Player::_physics_process(double delta) {
 
     // gravity and jumping
     if (!this->is_on_floor()) {
-        speed = 2 - air_resistance;
+        speed -= air_resistance * delta;
         velocity.y -= gravity * delta;
         translate_object_local(momentum);
     }
