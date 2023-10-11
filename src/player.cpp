@@ -161,16 +161,11 @@ void Player::_physics_process(double delta) {
     ledge_hang();
     gliding();
     
-    if (get_position().y < -100.0 || lives < 0) {
-        tree->change_scene_to_file("res://scenes/lose_screen.tscn");
-    }
-    if (lives == 10) {
-        tree->change_scene_to_file("res://scenes/win_screen.tscn");
-    }
 
     // gacky way to limit speed, fix later
     set_velocity(velocity);
     move_and_slide();
+    end_conditions();
 }
 
 Vector3 Player::rotate_wasd() {
