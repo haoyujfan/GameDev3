@@ -40,7 +40,7 @@ void Player::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_air_resistance"), &Player::get_air_resistance);
     ClassDB::bind_method(D_METHOD("set_air_resistance", "air_resistance"), &Player::set_air_resistance);
     ClassDB::add_property("Player", PropertyInfo(Variant::FLOAT, "air resistance", PROPERTY_HINT_RANGE, 
-        "0, 2, 0.1"), "set_air_resistance", "get_air_resistance");
+        "0, 1, 0.1"), "set_air_resistance", "get_air_resistance");
 
     ClassDB::bind_method(D_METHOD("get_lives"), &Player::get_lives);
 
@@ -54,7 +54,7 @@ Player::Player() {
     gravity = 1400.0;
     glide_gravity = 200.0;
     jump_velocity = 300.0;
-    speed = 2;
+    speed = 1;
     air_resistance = 0;
     current_air = 0;
     velocity = Vector3(0.0, 0.0, 0.0);
@@ -132,21 +132,15 @@ void Player::_physics_process(double delta) {
     }
     // reset gravity 
     if (this->is_on_floor()) {
-        speed = 2;
+        speed = 1;
         gravity = 1400.0;
         momentum = Vector3(0, 0, 0);
     }
-
-    ledge_hang();
     // gravity and jumping
-    if (!this->is_on_floor()) {
-        if (!hanging) {
-            speed -= air_resistance * delta;
-            velocity.y -= gravity * delta;
-            translate_object_local(momentum);
-        } else {
-            gravity = 0;
-        }
+    if (!this->is_on_floor() && !hanging) {
+        speed -= air_resistance * delta;
+        velocity.y -= gravity * delta;
+        translate_object_local(momentum);
     }
     if (Input::get_singleton()->is_action_just_pressed("Jump") && this->is_on_floor()) {
         velocity.y = jump_velocity;
@@ -164,52 +158,9 @@ void Player::_physics_process(double delta) {
         hanging = false;
     }
 
-    // ledge stop and ledge hang 
-    if (Input::get_singleton()->is_action_pressed("Shift")) {
-        if (ray1->is_colliding() && ray2->is_colliding() &&
-            ray3->is_colliding() && ray4->is_colliding()) {
-            // WASD movement
-            if (AD_rotate) {
-                momentum = rotate_wasd();
-            }
-            else {
-                momentum = strafe_wasd();
-            }
-        }
-    } else if (Input::get_singleton()->is_action_pressed("H")) {
-        if (ray1->is_colliding() || ray2->is_colliding() ||
-            ray3->is_colliding() || ray4->is_colliding()) {
-            // WASD movement
-            if (AD_rotate) {
-                momentum = rotate_wasd();
-            }
-            else {
-                momentum = strafe_wasd();
-            }
-        } else {
-            gravity = 0;
-            velocity.y = 0;
-            hanging = true;
-        }
-    } else {
-        // WASD movement
-        if (AD_rotate) {
-            momentum = rotate_wasd();
-        }
-        else {
-            momentum = strafe_wasd();
-        }
-    }
-    // gliding (g)
-    if (Input::get_singleton()->is_action_pressed("G") && velocity.y < 0) {
-        gravity = glide_gravity;
-        current_air = air_resistance;
-        air_resistance = 0;
-    }
-    if (Input::get_singleton()->is_action_just_released("G")) {
-        gravity = 1400.0;
-        air_resistance = current_air;
-    }
+    ledge_hang();
+    gliding();
+    
     if (get_position().y < -100.0 || lives < 0) {
         tree->change_scene_to_file("res://scenes/lose_screen.tscn");
     }
@@ -375,7 +326,6 @@ void Player::ledge_hang() {
                 momentum = strafe_wasd();
             }
         } else {
-            gravity = 0;
             velocity.y = 0;
             hanging = true;
         }
